@@ -13,9 +13,9 @@ import org.springframework.web.bind.annotation.RestController
 
 @RequestMapping("/users")
 @RestController
-class UserController {
-    private val userService: UserService
-
+class UserController(
+        val userService: UserService
+) {
     @PostMapping("/signup")
     fun signup(@RequestBody signUpRequest : SignUpRequest) : ResponseEntity<UserResponse> {
         return ResponseEntity.status(HttpStatus.OK).body(userService.signUp(signUpRequest))

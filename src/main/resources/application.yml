@@ -1,0 +1,31 @@
+spring:
+  #??? ??
+  datasource:
+    url: jdbc:postgresql://localhost:5432/
+    username: postgres
+    password: FrBrUkwv2ek0nx10
+  jpa:
+    open-in-view: true
+    hibernate:
+      ddl-auto: create
+    properties:
+      hibernate:
+        show_sql: true
+        format_sql: false
+        highlight_sql: true
+logging:
+  level:
+    org:
+      hibernate:
+        SQL: debug
+        orm:
+          jdbc:
+            bind: trace
+      springframework: # ??!
+        security: debug # ??!
+auth:
+  jwt:
+    issuer: team.sparta.com
+    secret: PO4c8z41Hia5gJG3oeuFJMRYBB4Ws4aZ
+    accessTokenExpirationHour: 168
+

@@ -6,7 +6,7 @@ import com.teamsparta.backoffice.domain.user.dto.SignUpRequest
 import com.teamsparta.backoffice.domain.user.dto.UserResponse
 
 interface UserService {
-    fun singUp(request: SignUpRequest) : UserResponse
+    fun signUp(request: SignUpRequest) : UserResponse
 
     fun login (request : LoginRequest) : LoginResponse
     fun searchMyInfo(id : Long) : UserResponse
