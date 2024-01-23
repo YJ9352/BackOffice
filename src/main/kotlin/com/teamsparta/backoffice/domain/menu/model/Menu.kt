@@ -2,6 +2,7 @@ package com.teamsparta.backoffice.domain.menu.model
 
 import com.teamsparta.backoffice.domain.menu.common.MenuStatus
 import com.teamsparta.backoffice.domain.menu.dto.response.MenuResponse
+import com.teamsparta.backoffice.domain.menu.dto.response.GetAllMenuResponse
 import jakarta.persistence.*
 
 @Entity
@@ -11,7 +12,7 @@ class Menu(
     @Column(name = "name")
     var name: String,
 
-    @Column(name = "imageUrl")
+    @Column(name = "imageurl")
     var imageUrl: String,
 
     @Column(name = "description")
@@ -45,5 +46,14 @@ fun Menu.toMenuRespone(): MenuResponse {
         description = description,
         price = price,
         status = status.name,
+    )
+}
+
+fun Menu.toGetAllMenuResponse(): GetAllMenuResponse {
+    return GetAllMenuResponse(
+        menuId = menuId,
+        name = name,
+        price = price,
+        imageUrl = imageUrl
     )
 }
