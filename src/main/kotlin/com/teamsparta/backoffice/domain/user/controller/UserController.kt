@@ -1,13 +1,9 @@
 package com.teamsparta.backoffice.domain.user.controller
 
-import com.teamsparta.backoffice.domain.user.dto.ModifyUserRequest
-import com.teamsparta.backoffice.domain.user.dto.SearchUserResponse
-import com.teamsparta.backoffice.domain.user.dto.SignUpRequest
-import com.teamsparta.backoffice.domain.user.dto.UserResponse
+import com.teamsparta.backoffice.domain.user.dto.*
 import com.teamsparta.backoffice.domain.user.service.UserService
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
-import org.springframework.stereotype.Controller
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PatchMapping
 import org.springframework.web.bind.annotation.PathVariable
@@ -35,5 +31,10 @@ class UserController(
     fun modifyMyInfo(@PathVariable id: Long, @RequestBody modifyUserRequest: ModifyUserRequest) : ResponseEntity<SearchUserResponse> {
         return ResponseEntity.status(HttpStatus.OK).body(userService.modifyMyInfo(id,modifyUserRequest))
 
+    }
+
+    @PostMapping("/login")
+    fun login(@RequestBody loginRequest: LoginRequest): ResponseEntity<LoginResponse> {
+        return ResponseEntity.status(HttpStatus.OK).body(userService.login(loginRequest))
     }
 }

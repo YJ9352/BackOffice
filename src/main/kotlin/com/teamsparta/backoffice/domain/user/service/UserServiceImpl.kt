@@ -6,24 +6,28 @@ import com.teamsparta.backoffice.domain.user.model.UserRole
 import com.teamsparta.backoffice.domain.user.model.toResponse
 import com.teamsparta.backoffice.domain.user.model.toResponseMail
 import com.teamsparta.backoffice.domain.user.repository.UserRepository
+import com.teamsparta.backoffice.infra.security.jwt.JwtPlugin
 import org.springframework.data.repository.findByIdOrNull
+import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.stereotype.Service
 
 @Service
 
 class UserServiceImpl(
-        private val userRepository: UserRepository
+        private val userRepository: UserRepository,
+        private val passwordEncoder: PasswordEncoder,
+        private val jwtPlugin: JwtPlugin
 ) : UserService {
     override fun signUp(request: SignUpRequest): UserResponse {
         val user = User(
                 email = request.email,
-                password = request.password,
+                password = passwordEncoder.encode(request.password),
                 nickname = request.nickname,
-                role = when (request.role){
+                role = when (request.role) {
                     "ADMIN" -> UserRole.ADMIN
                     "CEO" -> UserRole.CEO
                     "CUSTOMER" -> UserRole.CUSTOMER
-                    else-> throw IllegalArgumentException("Invalid role")
+                    else -> throw IllegalArgumentException("Invalid role")
                 },
                 phoneNumber = request.phoneNumber,
                 balance = 0
@@ -32,7 +36,15 @@ class UserServiceImpl(
     }
 
     override fun login(request: LoginRequest): LoginResponse {
-        TODO("Not yet implemented")
+        val user = userRepository.findByEmail(request.email) ?: throw IllegalArgumentException("Invalid role")
+        return LoginResponse(
+                accessToken = jwtPlugin.generateAccessToken(
+                        subject = user.id.toString(),
+                        email = user.email,
+                        role = user.role.name
+
+                )
+        )
     }
 
     override fun searchMyInfo(id: Long): SearchUserResponse {
@@ -41,12 +53,34 @@ class UserServiceImpl(
     }
 
     override fun modifyMyInfo(id: Long, request: ModifyUserRequest): SearchUserResponse {
-        val user = userRepository.findByIdOrNull(id) ?: throw IllegalArgumentException("Invalid role")
-        if (request.password == request.reenter) {
-            user.modifyUser(request)
-            return user.toResponse()
+        val user = userRepository.findByIdOrNull(id) ?: throw IllegalArgumentException("Ruler1")
+        // decode user.password
+        // request를 암호화했다가, 다시 복호화해야 할 듯
+            if(passwordEncoder.matches(request.password,user.password)) {
+                if (request.password ==request.reenter) {
+                    user.modifyUser(request)
+                    return user.toResponse()
+                }
+                else throw IllegalArgumentException("Ruler3")
+            /*
+            user.password == passwordEncoder.encode(request.password)
+            if (request.password == request.reenter) {
+                println(user.password)
+                return user.toResponse()
+            }
+            else throw IllegalArgumentException("Ruler3")
+
+             */
+
         }
-        else throw IllegalArgumentException("Invalid role")
+        /*
+    if (request.password == request.reenter) {
+        user.modifyUser(request)
+        return user.toResponse()
+    }
+
+         */
+        else throw IllegalArgumentException("Ruler2")
 
     }
 }
