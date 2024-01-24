@@ -10,7 +10,7 @@ import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 
 @RestController
-@RequestMapping("/api/stores/{storeId}")
+@RequestMapping("/stores/{storeId}/menus")
 class MenuController(
     private val menuService: MenuService
 ) {
@@ -23,7 +23,7 @@ class MenuController(
     }
 
     // 메뉴 추가
-    @PostMapping("/menus/{menuId}")
+    @PostMapping("/{menuId}")
     fun createMenu(
         @PathVariable storeId: Long,
         @RequestBody request: MenuRequest,
@@ -32,7 +32,7 @@ class MenuController(
     }
 
     // 메뉴 수정
-    @PutMapping("/menus/{menuId}")
+    @PutMapping("/{menuId}")
     fun modifyMenu(
         @PathVariable storeId: Long,
         @PathVariable menuId: Long,
@@ -42,7 +42,7 @@ class MenuController(
     }
 
     // 메뉴 상태변경
-    @PutMapping("/menus/{menuId}/status")
+    @PutMapping("/{menuId}/status")
     fun menuStatusChange(
         @PathVariable menuId: Long,
         @PathVariable storeId: Long,
