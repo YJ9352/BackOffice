@@ -1,5 +1,6 @@
 package com.teamsparta.backoffice.domain.user.service
 
+import com.teamsparta.backoffice.domain.exception.FormatException
 import com.teamsparta.backoffice.domain.user.dto.*
 import com.teamsparta.backoffice.domain.user.model.*
 import com.teamsparta.backoffice.domain.user.repository.UserRepository
@@ -25,13 +26,32 @@ class UserServiceImpl(
                     "ADMIN" -> UserRole.ADMIN
                     "CEO" -> UserRole.CEO
                     "CUSTOMER" -> UserRole.CUSTOMER
-                    else -> throw IllegalArgumentException("Invalid role")
+                    else -> throw IllegalArgumentException("존재하지 않는 역할입니다.")
                 },
                 phoneNumber = request.phoneNumber,
                 account = Account(0)
         )
-        return userRepository.save(user).toResponseMail()
+        val checkMail = userRepository.existsByEmail(request.email)
+        val checkNickname = userRepository.existsByNickname(request.nickname)
+        val checkPhoneNumber = userRepository.existsByPhoneNumber(request.phoneNumber)
+
+        return when {
+            (checkMail) -> {
+                throw FormatException("메일",request.email)
+            }
+
+            (checkNickname) -> {
+                throw FormatException("닉네임",request.nickname)
+            }
+
+            (checkPhoneNumber) -> {
+                throw FormatException("전화번호",request.phoneNumber)
+            }
+            else -> userRepository.save(user).toResponseMail()
+        }
+
     }
+
     //2. 로그인
     override fun login(request: LoginRequest): LoginResponse {
         val user = userRepository.findByEmail(request.email) ?: throw IllegalArgumentException("Invalid role")
@@ -44,11 +64,13 @@ class UserServiceImpl(
                 )
         )
     }
+
     //3. 내 정보 조회
     override fun getMyInfo(id: Long): GetUserResponse {
         val user = userRepository.findByIdOrNull(id) ?: throw IllegalArgumentException("Invalid role")
         return user.toResponse()
     }
+
     //4. 내 정보 수정
     override fun modifyMyInfo(id: Long, request: ModifyUserRequest): GetUserResponse {
         val user = userRepository.findByIdOrNull(id) ?: throw IllegalArgumentException("Ruler1")
