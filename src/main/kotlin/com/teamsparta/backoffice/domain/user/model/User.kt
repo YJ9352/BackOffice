@@ -19,14 +19,14 @@ class User(
         @Column(name = "nickname")
         var nickname: String,
         @Column(name = "phoneNumber")
-        var phoneNumber : String,
+        var phoneNumber: String,
         @Enumerated(EnumType.STRING)
         @Column(name = "role")
         val role: UserRole,
         @OneToOne(fetch = FetchType.LAZY, cascade = [CascadeType.ALL])
         @JoinColumn(name = "account_id")
         var account: Account,
-        ):BaseTimeEntity(){
+) : BaseTimeEntity() {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     var id: Long? = null
@@ -44,6 +44,7 @@ fun User.toResponseMail(): UserResponse {
             email = email
     )
 }
+
 fun User.toResponse(): SearchUserResponse {
     return SearchUserResponse(
             email = email,

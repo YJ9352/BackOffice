@@ -51,15 +51,13 @@ class UserServiceImpl(
 
     override fun modifyMyInfo(id: Long, request: ModifyUserRequest): SearchUserResponse {
         val user = userRepository.findByIdOrNull(id) ?: throw IllegalArgumentException("Ruler1")
-            if(passwordEncoder.matches(request.password,user.password)) {
-                if (request.password ==request.reenter) {
-                    user.modifyUser(request)
-                    return user.toResponse()
-                }
-                else throw IllegalArgumentException("Ruler3")
+        if (passwordEncoder.matches(request.password, user.password)) {
+            if (request.password == request.reenter) {
+                user.modifyUser(request)
+                return user.toResponse()
+            } else throw IllegalArgumentException("Ruler3")
 
-        }
-        else throw IllegalArgumentException("Ruler2")
+        } else throw IllegalArgumentException("Ruler2")
 
     }
 }

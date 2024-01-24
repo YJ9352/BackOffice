@@ -1,5 +1,5 @@
 package com.teamsparta.backoffice.domain.user.dto
 
-data class AccountResponse(
+data class AccountRequest(
         val balance: Int
 )

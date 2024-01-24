@@ -1,5 +1,5 @@
 package com.teamsparta.backoffice.domain.user.dto
 
-data class LoginResponse (
-        val accessToken : String
+data class LoginResponse(
+        val accessToken: String
 )
