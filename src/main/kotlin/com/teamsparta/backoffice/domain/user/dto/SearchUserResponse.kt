@@ -5,5 +5,4 @@ data class SearchUserResponse(
         val nickname : String,
         val role : String,
         val phoneNumber : String,
-        val balance : Int
 )

@@ -1,10 +1,7 @@
 package com.teamsparta.backoffice.domain.user.service
 
 import com.teamsparta.backoffice.domain.user.dto.*
-import com.teamsparta.backoffice.domain.user.model.User
-import com.teamsparta.backoffice.domain.user.model.UserRole
-import com.teamsparta.backoffice.domain.user.model.toResponse
-import com.teamsparta.backoffice.domain.user.model.toResponseMail
+import com.teamsparta.backoffice.domain.user.model.*
 import com.teamsparta.backoffice.domain.user.repository.UserRepository
 import com.teamsparta.backoffice.infra.security.jwt.JwtPlugin
 import org.springframework.data.repository.findByIdOrNull
@@ -30,7 +27,7 @@ class UserServiceImpl(
                     else -> throw IllegalArgumentException("Invalid role")
                 },
                 phoneNumber = request.phoneNumber,
-                balance = 0
+                account = Account(0)
         )
         return userRepository.save(user).toResponseMail()
     }

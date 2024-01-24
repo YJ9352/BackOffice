@@ -25,23 +25,23 @@ class UserController(
         return ResponseEntity.status(HttpStatus.OK).body(userService.signUp(signUpRequest))
     }
 
-    @GetMapping("/{id}")
-    @PreAuthorize("#userPrincipal.id == #id")
+    @GetMapping("/{userId}")
+    @PreAuthorize("#userPrincipal.id == #userId")
     fun searchMyInfo(
-            @PathVariable id: Long,
+            @PathVariable userId: Long,
             @AuthenticationPrincipal userPrincipal: UserPrincipal
     ) : ResponseEntity<SearchUserResponse> {
-        return ResponseEntity.status(HttpStatus.OK).body(userService.searchMyInfo(id))
+        return ResponseEntity.status(HttpStatus.OK).body(userService.searchMyInfo(userId))
 
     }
-    @PatchMapping("/{id}")
-    @PreAuthorize("#userPrincipal.id == #id")
-    fun modifyMyInfo(@PathVariable id: Long,
+    @PatchMapping("/{userId}")
+    @PreAuthorize("#userPrincipal.id == #userId")
+    fun modifyMyInfo(@PathVariable userId: Long,
                      @RequestBody modifyUserRequest: ModifyUserRequest,
                      @AuthenticationPrincipal userPrincipal: UserPrincipal
     ) : ResponseEntity<SearchUserResponse> {
 
-        return ResponseEntity.status(HttpStatus.OK).body(userService.modifyMyInfo(id,modifyUserRequest))
+        return ResponseEntity.status(HttpStatus.OK).body(userService.modifyMyInfo(userId,modifyUserRequest))
 
     }
 

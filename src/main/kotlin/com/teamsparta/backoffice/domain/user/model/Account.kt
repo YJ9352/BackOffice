@@ -1,14 +1,14 @@
 package com.teamsparta.backoffice.domain.user.model
 
+import com.teamsparta.backoffice.domain.user.dto.AccountResponse
 import jakarta.persistence.*
-/*
+
 @Entity
 @Table(name = "account")
 class Account(
+
         @Column(name = "balance")
         var balance : Int = 0,
-        @OneToOne(mappedBy = "account",fetch = FetchType.LAZY)
-        val user: User
 
 ) {
     @Id
@@ -17,4 +17,8 @@ class Account(
 
 }
 
- */
+fun Account.toResponse() : AccountResponse {
+    return AccountResponse(
+            balance = balance
+    )
+}

@@ -23,13 +23,9 @@ class User(
         @Enumerated(EnumType.STRING)
         @Column(name = "role")
         val role: UserRole,
-        @Column(name = "balance")
-        var balance : Int
-        /*
-        @OneToOne(fetch = FetchType.LAZY)
+        @OneToOne(fetch = FetchType.LAZY, cascade = [CascadeType.ALL])
         @JoinColumn(name = "account_id")
-        var account: Account?,
-         */
+        var account: Account,
         ):BaseTimeEntity(){
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -39,7 +35,7 @@ class User(
         nickname = request.nickname
         password = request.password
         phoneNumber = request.phoneNumber
-        balance = request.balance
+
     }
 }
 
@@ -54,7 +50,5 @@ fun User.toResponse(): SearchUserResponse {
             nickname = nickname,
             role = role.name,
             phoneNumber = phoneNumber,
-            balance = balance
-
     )
 }
