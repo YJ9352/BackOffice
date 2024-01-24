@@ -16,14 +16,14 @@ class MenuController(
 ) {
 
     // 메뉴 전체조회
-    @GetMapping("")
+    @GetMapping()
     fun getAllMenu(@PathVariable storeId: Long): ResponseEntity<List<MenuListResponse>> {
         val menus = menuService.getAllMenu(storeId)
         return ResponseEntity.status(HttpStatus.OK).body(menus)
     }
 
     // 메뉴 추가
-    @PostMapping("/{menuId}")
+    @PostMapping()
     fun createMenu(
             @PathVariable storeId: Long,
             @RequestBody request: MenuRequest,
