@@ -11,12 +11,12 @@ import org.springframework.stereotype.Service
 class AccountServiceImpl(
         private val accountRepository: AccountRepository
 ) : AccountService {
-    override fun getMyAccount(id: Long): AccountResponse {
+    override fun getMyAccount(id: Long?): AccountResponse {
         val account = accountRepository.findByIdOrNull(id) ?: throw IllegalArgumentException("Invalid role")
         return account.toResponse()
     }
 
-    override fun modifyMyAccount(id: Long, request: AccountRequest): AccountResponse {
+    override fun modifyMyAccount(id: Long?, request: AccountRequest): AccountResponse {
         val account = accountRepository.findByIdOrNull(id) ?: throw IllegalArgumentException("Invalid role")
         account.modifyAccount(request)
         return accountRepository.save(account).toResponse()
