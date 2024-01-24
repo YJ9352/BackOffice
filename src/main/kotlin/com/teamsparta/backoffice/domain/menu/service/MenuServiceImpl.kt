@@ -1,6 +1,6 @@
 package com.teamsparta.backoffice.domain.menu.service
 
-import com.teamsparta.backoffice.domain.menu.common.MenuStatus
+import com.teamsparta.backoffice.domain.menu.model.MenuStatus
 import com.teamsparta.backoffice.domain.menu.dto.request.MenuRequest
 import com.teamsparta.backoffice.domain.menu.dto.request.StatusRequest
 import com.teamsparta.backoffice.domain.menu.dto.response.MenuListResponse
@@ -66,7 +66,7 @@ class MenuServiceImpl(
 
         menu.status = when (request.status) {
             "SALE" -> MenuStatus.SALE
-            "SOLDOUT" -> MenuStatus.SOLDOUT
+            "SOLDOUT" -> MenuStatus.SOLD_OUT
             "DISCONTINUED" -> MenuStatus.DISCONTINUED
             else -> throw IllegalStateException("해당하는 상태가 없습니다.")
         }
