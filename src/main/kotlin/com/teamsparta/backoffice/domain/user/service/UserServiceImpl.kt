@@ -54,32 +54,14 @@ class UserServiceImpl(
 
     override fun modifyMyInfo(id: Long, request: ModifyUserRequest): SearchUserResponse {
         val user = userRepository.findByIdOrNull(id) ?: throw IllegalArgumentException("Ruler1")
-        // decode user.password
-        // request를 암호화했다가, 다시 복호화해야 할 듯
             if(passwordEncoder.matches(request.password,user.password)) {
                 if (request.password ==request.reenter) {
                     user.modifyUser(request)
                     return user.toResponse()
                 }
                 else throw IllegalArgumentException("Ruler3")
-            /*
-            user.password == passwordEncoder.encode(request.password)
-            if (request.password == request.reenter) {
-                println(user.password)
-                return user.toResponse()
-            }
-            else throw IllegalArgumentException("Ruler3")
-
-             */
 
         }
-        /*
-    if (request.password == request.reenter) {
-        user.modifyUser(request)
-        return user.toResponse()
-    }
-
-         */
         else throw IllegalArgumentException("Ruler2")
 
     }

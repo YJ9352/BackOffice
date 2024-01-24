@@ -30,7 +30,7 @@ class User(
         @JoinColumn(name = "account_id")
         var account: Account?,
          */
-        ){
+        ):BaseTimeEntity(){
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     var id: Long? = null
