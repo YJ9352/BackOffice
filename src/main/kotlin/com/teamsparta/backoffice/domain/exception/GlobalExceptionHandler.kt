@@ -25,6 +25,6 @@ class GlobalExceptionHandler {
 
     @ExceptionHandler(StringNotFoundException::class)
     fun handleStringNotFoundException(e: StringNotFoundException): ResponseEntity<ErrorResponse> {
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ErrorResponse(message = e.message))
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ErrorResponse(message = e.message))
     }
 }

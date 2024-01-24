@@ -2,6 +2,7 @@ package com.teamsparta.backoffice.domain.user.service
 
 import com.teamsparta.backoffice.domain.exception.CustomException
 import com.teamsparta.backoffice.domain.exception.FormatException
+import com.teamsparta.backoffice.domain.exception.ModelNotFoundException
 import com.teamsparta.backoffice.domain.exception.StringNotFoundException
 import com.teamsparta.backoffice.domain.user.dto.*
 import com.teamsparta.backoffice.domain.user.model.*
@@ -68,7 +69,7 @@ class UserServiceImpl(
 
     //2. 로그인
     override fun login(request: LoginRequest): LoginResponse {
-        val user = userRepository.findByEmail(request.email) ?: throw IllegalArgumentException("Invalid role")
+        val user = userRepository.findByEmail(request.email) ?: throw StringNotFoundException("존재하지 않는 이메일", request.email)
         return LoginResponse(
                 accessToken = jwtPlugin.generateAccessToken(
                         subject = user.id.toString(),
@@ -81,13 +82,13 @@ class UserServiceImpl(
 
     //3. 내 정보 조회
     override fun getMyInfo(id: Long): GetUserResponse {
-        val user = userRepository.findByIdOrNull(id) ?: throw IllegalArgumentException("Invalid role")
+        val user = userRepository.findByIdOrNull(id) ?: throw ModelNotFoundException("MyInfo",id)
         return user.toResponse()
     }
 
     //4. 내 정보 수정
     override fun modifyMyInfo(id: Long, request: ModifyUserRequest): GetUserResponse {
-        val user = userRepository.findByIdOrNull(id) ?: throw IllegalArgumentException("Ruler1")
+        val user = userRepository.findByIdOrNull(id) ?: throw ModelNotFoundException("MyInfo",id)
         // 비밀번호 재입력
         //1. 입력받은 비밀번호와 유저의 비밀번호가 같은지 확인하고
         if (passwordEncoder.matches(request.password, user.password)) {
@@ -96,9 +97,9 @@ class UserServiceImpl(
                 //3. 유저 정보를 수정하여 저장
                 user.modifyUser(request)
                 return user.toResponse()
-            } else throw IllegalArgumentException("Ruler3")
+            } else throw CustomException("재입력된 비밀번호가 일치하지 않습니다.")
 
-        } else throw IllegalArgumentException("Ruler2")
+        } else throw CustomException("잘못된 비밀번호가 입력되었습니다.")
 
     }
 }
