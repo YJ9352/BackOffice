@@ -1,6 +1,8 @@
 package com.teamsparta.backoffice.domain.user.service
 
+import com.teamsparta.backoffice.domain.exception.CustomException
 import com.teamsparta.backoffice.domain.exception.FormatException
+import com.teamsparta.backoffice.domain.exception.StringNotFoundException
 import com.teamsparta.backoffice.domain.user.dto.*
 import com.teamsparta.backoffice.domain.user.model.*
 import com.teamsparta.backoffice.domain.user.repository.UserRepository
@@ -8,6 +10,7 @@ import com.teamsparta.backoffice.infra.security.jwt.JwtPlugin
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.stereotype.Service
+import java.util.regex.Pattern
 
 @Service
 
@@ -18,6 +21,18 @@ class UserServiceImpl(
 ) : UserService {
     //1. 회원가입
     override fun signUp(request: SignUpRequest): UserResponse {
+        val checkMail = userRepository.existsByEmail(request.email)
+        val checkNickname = userRepository.existsByNickname(request.nickname)
+        val checkPhoneNumber = userRepository.existsByPhoneNumber(request.phoneNumber)
+        val regexPassword = "^(?=.*[a-zA-Z])(?=.*[0-9])(?=.*[!@#%^&*])[a-zA-Z0-9!@#%^&*]{8,15}\$"
+        val regexEmail = "^[a-zA-Z0-9+-_.]+@[a-zA-Z0-9-]+.[a-zA-Z0-9-.]+$"
+        val regexPhoneNumber = "(\\d{3})(\\d{3,4})(\\d{4})"
+        if (!Pattern.matches(regexEmail, request.email)) {
+            throw CustomException("올바른 이메일 형식에 따라 입력해 주시기 바랍니다.")
+        }
+        if (!Pattern.matches(regexPassword, request.password)) {
+            throw CustomException("영문,숫자,특수문자를 포함한 8~15자리를 입력해 주시기 바랍니다.")
+        }
         val user = User(
                 email = request.email,
                 password = passwordEncoder.encode(request.password),
@@ -26,27 +41,26 @@ class UserServiceImpl(
                     "ADMIN" -> UserRole.ADMIN
                     "CEO" -> UserRole.CEO
                     "CUSTOMER" -> UserRole.CUSTOMER
-                    else -> throw IllegalArgumentException("존재하지 않는 역할입니다.")
+                    else -> throw StringNotFoundException("존재하지 않는 역할", request.role)
                 },
-                phoneNumber = request.phoneNumber,
+                phoneNumber = if (Pattern.matches(regexPhoneNumber, request.phoneNumber)) {
+                    Regex(regexPhoneNumber).replace(request.phoneNumber, "$1-$2-$3")
+                } else throw CustomException("올바른 전화번호를 입력해 주세요."),
                 account = Account(0)
         )
-        val checkMail = userRepository.existsByEmail(request.email)
-        val checkNickname = userRepository.existsByNickname(request.nickname)
-        val checkPhoneNumber = userRepository.existsByPhoneNumber(request.phoneNumber)
-
         return when {
             (checkMail) -> {
-                throw FormatException("메일",request.email)
+                throw FormatException("메일", request.email)
             }
 
             (checkNickname) -> {
-                throw FormatException("닉네임",request.nickname)
+                throw FormatException("닉네임", request.nickname)
             }
 
             (checkPhoneNumber) -> {
-                throw FormatException("전화번호",request.phoneNumber)
+                throw FormatException("전화번호", request.phoneNumber)
             }
+
             else -> userRepository.save(user).toResponseMail()
         }
 

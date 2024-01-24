@@ -12,8 +12,19 @@ class GlobalExceptionHandler {
     fun handleModelNotFoundException(e: ModelNotFoundException): ResponseEntity<ErrorResponse> {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ErrorResponse(message = e.message))
     }
+
     @ExceptionHandler(FormatException::class)
     fun handleFormatException(e: FormatException): ResponseEntity<ErrorResponse> {
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ErrorResponse(message = e.message))
+    }
+
+    @ExceptionHandler(CustomException::class)
+    fun handlePasswordException(e: CustomException): ResponseEntity<ErrorResponse> {
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ErrorResponse(message = e.message))
+    }
+
+    @ExceptionHandler(StringNotFoundException::class)
+    fun handleStringNotFoundException(e: StringNotFoundException): ResponseEntity<ErrorResponse> {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ErrorResponse(message = e.message))
     }
 }
