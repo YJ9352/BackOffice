@@ -52,7 +52,9 @@ class MenuController(
         @PathVariable storeId: Long,
         @RequestBody request: StatusRequest
     ): ResponseEntity<MenuResponse> {
-        return ResponseEntity.status(HttpStatus.OK).body(menuService.menuStatusChange(menuId, storeId, request))
+        return ResponseEntity
+            .status(HttpStatus.OK)
+            .body(menuService.menuStatusChange(menuId, storeId, request))
     }
 
 }

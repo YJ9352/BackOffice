@@ -33,14 +33,14 @@ class Menu(
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "menuid")
-    val menuId: Long = 0
+    @Column(name = "menu_id")
+    val id: Long = 0
 
 }
 
 fun Menu.toMenuRespone(): MenuResponse {
     return MenuResponse(
-        menuId = menuId,
+        menuId = id,
         name = name,
         imageUrl = imageUrl,
         description = description,
@@ -51,7 +51,7 @@ fun Menu.toMenuRespone(): MenuResponse {
 
 fun Menu.toGetAllMenuResponse(): GetAllMenuResponse {
     return GetAllMenuResponse(
-        menuId = menuId,
+        menuId = id,
         name = name,
         price = price,
         imageUrl = imageUrl
