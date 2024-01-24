@@ -30,6 +30,8 @@ dependencies {
 	implementation("io.jsonwebtoken:jjwt-api:0.12.3")
 	//swagger
 	implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.2.0")
+	// validation
+	implementation("org.springframework.boot:spring-boot-starter-validation")
 	developmentOnly("org.springframework.boot:spring-boot-devtools")
 	runtimeOnly("org.postgresql:postgresql")
 	//jwt

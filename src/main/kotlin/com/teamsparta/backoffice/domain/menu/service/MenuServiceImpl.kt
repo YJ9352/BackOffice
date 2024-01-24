@@ -1,5 +1,7 @@
 package com.teamsparta.backoffice.domain.menu.service
 
+import com.teamsparta.backoffice.domain.exception.ModelNotFoundException
+import com.teamsparta.backoffice.domain.exception.StringNotFoundException
 import com.teamsparta.backoffice.domain.menu.dto.request.MenuRequest
 import com.teamsparta.backoffice.domain.menu.dto.request.StatusRequest
 import com.teamsparta.backoffice.domain.menu.dto.response.MenuListResponse
@@ -14,7 +16,7 @@ import org.springframework.transaction.annotation.Transactional
 class MenuServiceImpl(
 //    private val storeRepository: StoreRepository,
 //    private val userRepository: UserRepository,
-    private val menuRepository: MenuRepository
+        private val menuRepository: MenuRepository
 ) : MenuService {
 
     // 메뉴 전체조회
@@ -62,7 +64,7 @@ class MenuServiceImpl(
             "SALE" -> MenuStatus.SALE
             "SOLD_OUT" -> MenuStatus.SOLD_OUT
             "DISCONTINUED" -> MenuStatus.DISCONTINUED
-            else -> throw ModelNotFoundException("status", request.status)
+            else -> throw StringNotFoundException("status", request.status)
         }
 
         return menuRepository.save(menu).toMenuResponse()
