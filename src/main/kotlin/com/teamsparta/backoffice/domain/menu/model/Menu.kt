@@ -1,9 +1,8 @@
 package com.teamsparta.backoffice.domain.menu.model
 
 import com.teamsparta.backoffice.domain.menu.common.MenuStatus
-import com.teamsparta.backoffice.domain.menu.dto.request.MenuRequest
-import com.teamsparta.backoffice.domain.menu.dto.response.MenuResponse
 import com.teamsparta.backoffice.domain.menu.dto.response.MenuListResponse
+import com.teamsparta.backoffice.domain.menu.dto.response.MenuResponse
 import jakarta.persistence.*
 
 @Entity
