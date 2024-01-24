@@ -41,7 +41,7 @@ class Menu(
 
 }
 
-fun Menu.toMenuRespone(): MenuResponse {
+fun Menu.toMenuResponse(): MenuResponse {
     return MenuResponse(
         menuId = id,
         name = name,
