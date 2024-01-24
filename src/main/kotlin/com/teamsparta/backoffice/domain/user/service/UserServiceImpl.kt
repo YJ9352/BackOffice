@@ -1,7 +1,7 @@
 package com.teamsparta.backoffice.domain.user.service
 
 import com.teamsparta.backoffice.domain.exception.CustomException
-import com.teamsparta.backoffice.domain.exception.FormatException
+import com.teamsparta.backoffice.domain.exception.ExistingValueException
 import com.teamsparta.backoffice.domain.exception.ModelNotFoundException
 import com.teamsparta.backoffice.domain.exception.StringNotFoundException
 import com.teamsparta.backoffice.domain.user.dto.*
@@ -43,15 +43,15 @@ class UserServiceImpl(
         )
         return when {
             (checkMail) -> {
-                throw FormatException("메일", request.email)
+                throw ExistingValueException("메일", request.email)
             }
 
             (checkNickname) -> {
-                throw FormatException("닉네임", request.nickname)
+                throw ExistingValueException("닉네임", request.nickname)
             }
 
             (checkPhoneNumber) -> {
-                throw FormatException("전화번호", request.phoneNumber)
+                throw ExistingValueException("전화번호", request.phoneNumber)
             }
 
             else -> userRepository.save(user).toResponseMail()

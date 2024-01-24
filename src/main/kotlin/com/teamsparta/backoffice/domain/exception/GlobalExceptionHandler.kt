@@ -13,8 +13,8 @@ class GlobalExceptionHandler {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ErrorResponse(message = e.message))
     }
 
-    @ExceptionHandler(FormatException::class)
-    fun handleFormatException(e: FormatException): ResponseEntity<ErrorResponse> {
+    @ExceptionHandler(ExistingValueException::class)
+    fun handleFormatException(e: ExistingValueException): ResponseEntity<ErrorResponse> {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ErrorResponse(message = e.message))
     }
 
