@@ -8,6 +8,7 @@ import com.teamsparta.backoffice.domain.user.dto.*
 import com.teamsparta.backoffice.domain.user.model.*
 import com.teamsparta.backoffice.domain.user.repository.UserRepository
 import com.teamsparta.backoffice.infra.security.jwt.JwtPlugin
+import jakarta.transaction.Transactional
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.stereotype.Service
@@ -21,6 +22,7 @@ class UserServiceImpl(
         private val jwtPlugin: JwtPlugin,
 ) : UserService {
     //1. 회원가입
+    @Transactional
     override fun signUp(request: SignUpRequest): UserResponse {
         val checkMail = userRepository.existsByEmail(request.email)
         val checkNickname = userRepository.existsByNickname(request.nickname)
@@ -66,7 +68,7 @@ class UserServiceImpl(
         }
 
     }
-
+    @Transactional
     //2. 로그인
     override fun login(request: LoginRequest): LoginResponse {
         val user = userRepository.findByEmail(request.email) ?: throw StringNotFoundException("존재하지 않는 이메일", request.email)
@@ -87,6 +89,7 @@ class UserServiceImpl(
     }
 
     //4. 내 정보 수정
+    @Transactional
     override fun modifyMyInfo(id: Long, request: ModifyUserRequest): GetUserResponse {
         val user = userRepository.findByIdOrNull(id) ?: throw ModelNotFoundException("MyInfo",id)
         // 비밀번호 재입력
