@@ -6,19 +6,24 @@ import com.teamsparta.backoffice.domain.cart.model.Cart
 import com.teamsparta.backoffice.domain.cart.model.CartMenu
 import com.teamsparta.backoffice.domain.cart.repository.CartMenuRepository
 import com.teamsparta.backoffice.domain.cart.repository.CartRepository
+import com.teamsparta.backoffice.domain.user.repository.UserRepository
+import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service
-import java.lang.RuntimeException
 
 @Service
 class CartService(
     private val cartMenuRepository: CartMenuRepository,
     private val cartRepository: CartRepository,
+    private val userRepository: UserRepository
     // Todo  private val menuRepository: MenuRepository
 ) {
     private fun createCart(userId: Long, storeId: Long): Cart {
+        // Todo Model Not Found Exception
+        val user = userRepository.findByIdOrNull(userId)?: throw RuntimeException()
+
         return cartRepository.save(
             Cart(
-                userId = userId,
+                user = user,
                 storeId = storeId
             )
         )
@@ -36,7 +41,7 @@ class CartService(
         // val findByIdMenu = menuRepository.findById(addCartMenuRequest.menuId)
         var menuId = 1L
 //        if (findByIdMenu.storeId != cart.storeId){
-//            throw OtherStoreMenuException()
+//            throw IllegalStateException()
 //        }
 
         cartMenuRepository.save(

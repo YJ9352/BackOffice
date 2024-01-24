@@ -3,8 +3,10 @@ package com.teamsparta.backoffice.domain.cart.controller
 import com.teamsparta.backoffice.domain.cart.dto.AddCartMenuRequest
 import com.teamsparta.backoffice.domain.cart.dto.CartResponse
 import com.teamsparta.backoffice.domain.cart.service.CartService
+import com.teamsparta.backoffice.infra.security.jwt.UserPrincipal
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
+import org.springframework.security.core.annotation.AuthenticationPrincipal
 import org.springframework.web.bind.annotation.*
 
 @RestController
@@ -15,48 +17,39 @@ class CartController(
 
     @PostMapping
     fun addCartMenu(
-//        @AuthenticationPrincipal user: User,
+        @AuthenticationPrincipal userPrincipal: UserPrincipal,
         @RequestBody addCartMenuRequest: AddCartMenuRequest
     ): ResponseEntity<CartResponse> {
-        // Todo userId change
-        var userId = 1L
         return ResponseEntity
             .status(HttpStatus.OK)
-            .body(cartService.addCartMenu(userId, addCartMenuRequest))
+            .body(cartService.addCartMenu(userPrincipal.id, addCartMenuRequest))
     }
 
     @GetMapping
     fun getCartByUserId(
-//        @AuthenticationPrincipal user: User
+        @AuthenticationPrincipal userPrincipal: UserPrincipal
     ): ResponseEntity<CartResponse> {
-        // Todo userId change
-        var userId = 1L
         return ResponseEntity
             .status(HttpStatus.OK)
-            .body(cartService.getCartByUserId(userId))
+            .body(cartService.getCartByUserId(userPrincipal.id))
     }
 
     @DeleteMapping
     fun deleteCart(
-//        @AuthenticationPrincipal user: User
+        @AuthenticationPrincipal userPrincipal: UserPrincipal
     ): ResponseEntity<Unit> {
-        // Todo userId change
-        var userId = 1L
         return ResponseEntity
             .status(HttpStatus.NO_CONTENT)
-            .body(cartService.deleteCartByUserId(userId))
+            .body(cartService.deleteCartByUserId(userPrincipal.id))
     }
 
     @DeleteMapping("/{cartMenuId}")
     fun deleteCartMenu(
-//        @AuthenticationPrincipal user: User,
-        @PathVariable cartMenuId:Long
+        @AuthenticationPrincipal userPrincipal: UserPrincipal,
+        @PathVariable cartMenuId: Long
     ): ResponseEntity<Unit> {
-        // Todo userId change
-        var userId = 1L
         return ResponseEntity
             .status(HttpStatus.NO_CONTENT)
-            .body(cartService.deleteCartMenu(userId, cartMenuId))
+            .body(cartService.deleteCartMenu(userPrincipal.id, cartMenuId))
     }
-
 }

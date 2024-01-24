@@ -1,12 +1,14 @@
 package com.teamsparta.backoffice.domain.cart.model
 
+import com.teamsparta.backoffice.domain.user.model.User
 import jakarta.persistence.*
 
 @Entity
 data class Cart(
 
-    // Todo @OneToOne
-    val userId: Long,
+    @OneToOne
+    @JoinColumn(name = "user_id")
+    val user: User,
     // Todo @ManyToOne
     val storeId: Long
 
