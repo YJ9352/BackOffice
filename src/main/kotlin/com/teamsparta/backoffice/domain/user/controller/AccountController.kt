@@ -15,8 +15,9 @@ import org.springframework.web.bind.annotation.*
 class AccountController(
         val accountService: AccountService
 ) {
-
+    //1. 계좌 조회하기
     @GetMapping("/{accountId}")
+    //인가 : 로그인한 사람의 id와 계좌 id가 동일해야 조회 가능
     @PreAuthorize("#userPrincipal.id == #accountId")
     fun getMyAccount(
             @PathVariable accountId: Long,
@@ -24,7 +25,7 @@ class AccountController(
     ): ResponseEntity<AccountResponse> {
         return ResponseEntity.status(HttpStatus.OK).body(accountService.getMyAccount(accountId))
     }
-
+    //2. 입금하기
     @PutMapping("/deposit/{accountId}")
     @PreAuthorize("#userPrincipal.id == #accountId")
     fun modifyMyAccount(

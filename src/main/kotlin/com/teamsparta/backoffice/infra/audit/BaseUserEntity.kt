@@ -18,3 +18,6 @@ abstract class BaseUserEntity : BaseTimeEntity() {
     @Column(nullable = true, updatable = true)
     var modifiedId: Long? = null
 }
+/*
+데이터의 생성 시간을 추적할 수 있는 기능
+ */

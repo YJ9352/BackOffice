@@ -19,5 +19,7 @@ abstract class BaseTimeEntity {
     @Column(nullable = false)
     protected var modifiedDate: LocalDateTime = LocalDateTime.MIN
 
-
 }
+/*
+데이터를 생성한 사람을 추적할 수 있는 기능
+ */

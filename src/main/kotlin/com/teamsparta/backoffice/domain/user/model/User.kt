@@ -1,7 +1,7 @@
 package com.teamsparta.backoffice.domain.user.model
 
 import com.teamsparta.backoffice.domain.user.dto.ModifyUserRequest
-import com.teamsparta.backoffice.domain.user.dto.SearchUserResponse
+import com.teamsparta.backoffice.domain.user.dto.GetUserResponse
 import com.teamsparta.backoffice.domain.user.dto.UserResponse
 import com.teamsparta.backoffice.infra.audit.BaseTimeEntity
 import jakarta.persistence.*
@@ -45,8 +45,8 @@ fun User.toResponseMail(): UserResponse {
     )
 }
 
-fun User.toResponse(): SearchUserResponse {
-    return SearchUserResponse(
+fun User.toResponse(): GetUserResponse {
+    return GetUserResponse(
             email = email,
             nickname = nickname,
             role = role.name,
