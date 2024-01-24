@@ -64,6 +64,9 @@ class UserServiceImpl(
     override fun login(request: LoginRequest): LoginResponse {
         val user = userRepository.findByEmail(request.email)
                 ?: throw StringNotFoundException("존재하지 않는 이메일", request.email)
+        if (!passwordEncoder.matches(request.password, user.password)) {
+            throw CustomException("비밀번호가 일치하지 않습니다.")
+        }
         return LoginResponse(
                 accessToken = jwtPlugin.generateAccessToken(
                         subject = user.id.toString(),
