@@ -26,7 +26,7 @@ class CartController(
     }
 
     @GetMapping
-    fun getCartByUserId(
+    fun getMyCart(
         @AuthenticationPrincipal userPrincipal: UserPrincipal
     ): ResponseEntity<CartResponse> {
         return ResponseEntity
