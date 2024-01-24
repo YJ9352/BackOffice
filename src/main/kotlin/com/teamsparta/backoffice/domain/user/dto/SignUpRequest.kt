@@ -7,4 +7,3 @@ data class SignUpRequest(
         val role: String,
         val phoneNumber: String
 )
-

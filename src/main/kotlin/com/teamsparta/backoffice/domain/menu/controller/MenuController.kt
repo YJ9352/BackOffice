@@ -12,21 +12,21 @@ import org.springframework.web.bind.annotation.*
 @RestController
 @RequestMapping("/stores/{storeId}/menus")
 class MenuController(
-    private val menuService: MenuService
+        private val menuService: MenuService
 ) {
 
     // 메뉴 전체조회
-    @GetMapping("")
+    @GetMapping()
     fun getAllMenu(@PathVariable storeId: Long): ResponseEntity<List<MenuListResponse>> {
         val menus = menuService.getAllMenu(storeId)
         return ResponseEntity.status(HttpStatus.OK).body(menus)
     }
 
     // 메뉴 추가
-    @PostMapping("/{menuId}")
+    @PostMapping()
     fun createMenu(
-        @PathVariable storeId: Long,
-        @RequestBody request: MenuRequest,
+            @PathVariable storeId: Long,
+            @RequestBody request: MenuRequest,
     ): ResponseEntity<MenuResponse> {
         return ResponseEntity.status(HttpStatus.CREATED).body(menuService.createMenu(storeId, request))
     }
@@ -34,9 +34,9 @@ class MenuController(
     // 메뉴 수정
     @PutMapping("/{menuId}")
     fun modifyMenu(
-        @PathVariable storeId: Long,
-        @PathVariable menuId: Long,
-        @RequestBody request: MenuRequest
+            @PathVariable storeId: Long,
+            @PathVariable menuId: Long,
+            @RequestBody request: MenuRequest
     ): ResponseEntity<MenuResponse> {
         return ResponseEntity.status(HttpStatus.OK).body(menuService.modifyMenu(menuId, request))
     }
@@ -44,9 +44,9 @@ class MenuController(
     // 메뉴 상태변경
     @PutMapping("/{menuId}/status")
     fun menuStatusChange(
-        @PathVariable menuId: Long,
-        @PathVariable storeId: Long,
-        @RequestBody request: StatusRequest
+            @PathVariable menuId: Long,
+            @PathVariable storeId: Long,
+            @RequestBody request: StatusRequest
     ): ResponseEntity<MenuResponse> {
         return ResponseEntity.status(HttpStatus.OK).body(menuService.menuStatusChange(menuId, storeId, request))
     }

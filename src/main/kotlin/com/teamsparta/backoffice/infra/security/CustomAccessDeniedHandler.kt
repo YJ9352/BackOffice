@@ -1,6 +1,7 @@
 package com.teamsparta.backoffice.infra.security
 
 import com.fasterxml.jackson.databind.ObjectMapper
+import com.teamsparta.backoffice.domain.exception.dto.ErrorResponse
 import jakarta.servlet.http.HttpServletRequest
 import jakarta.servlet.http.HttpServletResponse
 import org.springframework.http.MediaType
