@@ -4,6 +4,9 @@ import com.teamsparta.backoffice.domain.cart.model.Cart
 import org.springframework.data.jpa.repository.JpaRepository
 
 interface CartRepository : JpaRepository<Cart,Long> {
-    fun findByUserIdOrNull(userId:Long):Cart?
+
+    fun findByUserId(userId:Long):Cart?
+
     fun deleteByUserId(userId: Long)
+
 }

@@ -6,4 +6,6 @@ import org.springframework.data.jpa.repository.JpaRepository
 interface CartMenuRepository:JpaRepository<CartMenu,Long> {
     fun findByCartId(cartId:Long):List<CartMenu>
 
+    fun deleteByCartId(cartId:Long)
+
 }
