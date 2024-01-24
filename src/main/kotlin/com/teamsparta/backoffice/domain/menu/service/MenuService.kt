@@ -2,13 +2,13 @@ package com.teamsparta.backoffice.domain.menu.service
 
 import com.teamsparta.backoffice.domain.menu.dto.request.MenuRequest
 import com.teamsparta.backoffice.domain.menu.dto.request.StatusRequest
+import com.teamsparta.backoffice.domain.menu.dto.response.MenuListResponse
 import com.teamsparta.backoffice.domain.menu.dto.response.MenuResponse
-import com.teamsparta.backoffice.domain.menu.dto.response.GetAllMenuResponse
 
 interface MenuService {
 
     // 메뉴 전체조회
-    fun getAllMenu(): List<GetAllMenuResponse>
+    fun getAllMenu(): List<MenuListResponse>
 
     // 메뉴 추가
     fun createMenu(request: MenuRequest): MenuResponse

@@ -1,8 +1,9 @@
 package com.teamsparta.backoffice.domain.menu.model
 
 import com.teamsparta.backoffice.domain.menu.common.MenuStatus
+import com.teamsparta.backoffice.domain.menu.dto.request.MenuRequest
 import com.teamsparta.backoffice.domain.menu.dto.response.MenuResponse
-import com.teamsparta.backoffice.domain.menu.dto.response.GetAllMenuResponse
+import com.teamsparta.backoffice.domain.menu.dto.response.MenuListResponse
 import jakarta.persistence.*
 
 @Entity
@@ -26,15 +27,19 @@ class Menu(
     var status: MenuStatus,
 
 //    @ManyToOne
-//    @Column(name = "storeId")
-//    val stores: Store,
+//    @Column(name = "store_id")
+//    val store: Store,
+
+//    @ManyToOne
+//    @Column(name = "user_id")
+//    val user: User,
 
 ) {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "menu_id")
-    val id: Long = 0
+    val id: Long = 0L
 
 }
 
@@ -49,8 +54,8 @@ fun Menu.toMenuRespone(): MenuResponse {
     )
 }
 
-fun Menu.toGetAllMenuResponse(): GetAllMenuResponse {
-    return GetAllMenuResponse(
+fun Menu.toMenuListResponse(): MenuListResponse {
+    return MenuListResponse(
         menuId = id,
         name = name,
         price = price,

@@ -2,8 +2,8 @@ package com.teamsparta.backoffice.domain.menu.controller
 
 import com.teamsparta.backoffice.domain.menu.dto.request.MenuRequest
 import com.teamsparta.backoffice.domain.menu.dto.request.StatusRequest
+import com.teamsparta.backoffice.domain.menu.dto.response.MenuListResponse
 import com.teamsparta.backoffice.domain.menu.dto.response.MenuResponse
-import com.teamsparta.backoffice.domain.menu.dto.response.GetAllMenuResponse
 import com.teamsparta.backoffice.domain.menu.service.MenuService
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
@@ -17,8 +17,10 @@ class MenuController(
 
     // 메뉴 전체조회
     @GetMapping("/menus")
-    fun getAllMenu(@PathVariable storeId: String): ResponseEntity<List<GetAllMenuResponse>> {
-        return ResponseEntity.status(HttpStatus.OK).body(menuService.getAllMenu())
+    fun getAllMenu(@PathVariable storeId: String): ResponseEntity<List<MenuListResponse>> {
+        return ResponseEntity
+            .status(HttpStatus.OK)
+            .body(menuService.getAllMenu())
     }
 
     // 메뉴 추가
@@ -28,9 +30,7 @@ class MenuController(
         @PathVariable menuId: Long,
         @RequestBody request: MenuRequest
     ): ResponseEntity<MenuResponse> {
-        return ResponseEntity
-            .status(HttpStatus.CREATED)
-            .body(menuService.createMenu(request))
+        return ResponseEntity.status(HttpStatus.CREATED).body(menuService.createMenu(request))
     }
 
     // 메뉴 수정
@@ -40,9 +40,7 @@ class MenuController(
         @PathVariable menuId: Long,
         @RequestBody request: MenuRequest
     ): ResponseEntity<MenuResponse> {
-        return ResponseEntity
-            .status(HttpStatus.OK)
-            .body(menuService.modifyMenu(menuId, request))
+        return ResponseEntity.status(HttpStatus.OK).body(menuService.modifyMenu(menuId, request))
     }
 
     // 메뉴 상태변경
@@ -52,9 +50,7 @@ class MenuController(
         @PathVariable storeId: Long,
         @RequestBody request: StatusRequest
     ): ResponseEntity<MenuResponse> {
-        return ResponseEntity
-            .status(HttpStatus.OK)
-            .body(menuService.menuStatusChange(menuId, storeId, request))
+        return ResponseEntity.status(HttpStatus.OK).body(menuService.menuStatusChange(menuId, storeId, request))
     }
 
 }
