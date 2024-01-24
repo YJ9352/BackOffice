@@ -13,7 +13,7 @@ import org.springframework.stereotype.Service
 class UserServiceImpl(
         private val userRepository: UserRepository,
         private val passwordEncoder: PasswordEncoder,
-        private val jwtPlugin: JwtPlugin
+        private val jwtPlugin: JwtPlugin,
 ) : UserService {
     //1. 회원가입
     override fun signUp(request: SignUpRequest): UserResponse {
