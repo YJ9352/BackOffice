@@ -25,12 +25,12 @@ class Menu(
     var status: MenuStatus,
 
 //    @ManyToOne
-//    @Column(name = "store_id")
-//    val store: Store,
+    @JoinColumn(name = "store_id")
+    val storeId: Long,
 
 //    @ManyToOne
 //    @Column(name = "user_id")
-//    val user: User,
+//    val userId: Long,
 
 ) {
 
@@ -48,7 +48,7 @@ fun Menu.toMenuRespone(): MenuResponse {
         imageUrl = imageUrl,
         description = description,
         price = price,
-        status = status.name,
+        status = status.name
     )
 }
 

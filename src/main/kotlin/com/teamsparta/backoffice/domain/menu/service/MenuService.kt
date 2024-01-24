@@ -8,10 +8,10 @@ import com.teamsparta.backoffice.domain.menu.dto.response.MenuResponse
 interface MenuService {
 
     // 메뉴 전체조회
-    fun getAllMenu(): List<MenuListResponse>
+    fun getAllMenu(storeId: Long): List<MenuListResponse>
 
     // 메뉴 추가
-    fun createMenu(request: MenuRequest): MenuResponse
+    fun createMenu(storeId: Long, request: MenuRequest): MenuResponse
 
     // 메뉴 수정
     fun modifyMenu(menuId: Long, request: MenuRequest): MenuResponse
