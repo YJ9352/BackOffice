@@ -5,5 +5,4 @@ data class ModifyUserRequest(
         val password: String,
         var reenter: String,
         val phoneNumber: String,
-        val balance: Int
 )

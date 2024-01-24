@@ -8,15 +8,15 @@ import jakarta.persistence.*
 @Table(name = "account")
 class Account(
 
-        @Column(name = "balance")
-        var balance: Int = 0,
+        @Column(name = "money")
+        var money: Int = 0,
 
         ) {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     var id: Long? = null
     fun modifyAccount(request: AccountRequest) {
-        balance = request.balance
+        money = request.money
 
     }
 
@@ -24,6 +24,6 @@ class Account(
 
 fun Account.toResponse(): AccountResponse {
     return AccountResponse(
-            balance = balance
+            money = money
     )
 }
