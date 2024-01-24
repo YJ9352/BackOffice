@@ -16,6 +16,7 @@ class AccountServiceImpl(
         val account = accountRepository.findByIdOrNull(id) ?: throw IllegalArgumentException("Invalid role")
         return account.toResponse()
     }
+
     @Transactional
     override fun modifyMyAccount(id: Long?, request: AccountRequest): AccountResponse {
         val account = accountRepository.findByIdOrNull(id) ?: throw IllegalArgumentException("Invalid role")

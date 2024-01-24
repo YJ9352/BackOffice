@@ -17,7 +17,7 @@ import org.springframework.transaction.annotation.Transactional
 class MenuServiceImpl(
 //    private val storeRepository: StoreRepository,
 //    private val userRepository: UserRepository,
-    private val menuRepository: MenuRepository
+        private val menuRepository: MenuRepository
 ) : MenuService {
 
     // 메뉴 전체조회
@@ -29,14 +29,14 @@ class MenuServiceImpl(
     @Transactional
     override fun createMenu(storeId: Long, request: MenuRequest): MenuResponse {
         return menuRepository.save(
-            Menu(
-                name = request.name,
-                imageUrl = request.imageUrl,
-                description = request.description,
-                price = request.price,
-                status = MenuStatus.SALE, // 기본상태 판매중
-                storeId
-            )
+                Menu(
+                        name = request.name,
+                        imageUrl = request.imageUrl,
+                        description = request.description,
+                        price = request.price,
+                        status = MenuStatus.SALE, // 기본상태 판매중
+                        storeId
+                )
         ).toMenuRespone()
     }
 
