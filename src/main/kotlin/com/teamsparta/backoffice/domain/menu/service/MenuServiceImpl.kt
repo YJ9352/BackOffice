@@ -8,15 +8,18 @@ import com.teamsparta.backoffice.domain.menu.dto.response.MenuListResponse
 import com.teamsparta.backoffice.domain.menu.dto.response.MenuResponse
 import com.teamsparta.backoffice.domain.menu.model.*
 import com.teamsparta.backoffice.domain.menu.repository.MenuRepository
+import com.teamsparta.backoffice.domain.store.model.Store
+import com.teamsparta.backoffice.domain.store.repository.StoreRepository
+import com.teamsparta.backoffice.domain.user.repository.UserRepository
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 
 @Service
 class MenuServiceImpl(
-//    private val storeRepository: StoreRepository,
-//    private val userRepository: UserRepository,
-        private val menuRepository: MenuRepository
+    private val menuRepository: MenuRepository,
+    private val userRepository: UserRepository,
+    private val storeRepository: StoreRepository
 ) : MenuService {
 
     // 메뉴 전체조회
@@ -27,7 +30,9 @@ class MenuServiceImpl(
 
     // 메뉴 추가
     @Transactional
-    override fun createMenu(storeId: Long, request: MenuRequest): MenuResponse {
+    override fun createMenu(userId: Long, storeId: Long, request: MenuRequest): MenuResponse {
+        val user = userRepository.findByIdOrNull(userId) ?: throw ModelNotFoundException("userId", userId)
+        val store = storeRepository.findByIdOrNull(storeId) ?: throw ModelNotFoundException("storeId", storeId)
         return menuRepository.save(
             Menu(
                 name = request.name,
@@ -35,7 +40,8 @@ class MenuServiceImpl(
                 description = request.description,
                 price = request.price,
                 status = MenuStatus.SALE, // 기본상태 판매중
-                storeId
+                user = user,
+                store = store
             )
         ).toMenuResponse()
     }

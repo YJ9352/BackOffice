@@ -4,6 +4,7 @@ import com.teamsparta.backoffice.domain.store.dto.request.StoreRequest
 import com.teamsparta.backoffice.domain.store.dto.request.StoreStatusRequest
 import com.teamsparta.backoffice.domain.store.dto.response.StoreListResponse
 import com.teamsparta.backoffice.domain.store.dto.response.StoreResponse
+import com.teamsparta.backoffice.domain.user.model.User
 
 interface StoreService {
 

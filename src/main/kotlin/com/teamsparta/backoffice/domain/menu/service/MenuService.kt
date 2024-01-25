@@ -11,7 +11,7 @@ interface MenuService {
     fun getAllMenu(storeId: Long): List<MenuListResponse>
 
     // 메뉴 추가
-    fun createMenu(storeId: Long, request: MenuRequest): MenuResponse
+    fun createMenu(userId: Long, storeId: Long, request: MenuRequest): MenuResponse
 
     // 메뉴 수정
     fun modifyMenu(menuId: Long, request: MenuRequest): MenuResponse
