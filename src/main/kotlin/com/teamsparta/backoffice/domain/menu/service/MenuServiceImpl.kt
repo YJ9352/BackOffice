@@ -3,7 +3,7 @@ package com.teamsparta.backoffice.domain.menu.service
 import com.teamsparta.backoffice.domain.exception.ModelNotFoundException
 import com.teamsparta.backoffice.domain.exception.StringNotFoundException
 import com.teamsparta.backoffice.domain.menu.dto.request.MenuRequest
-import com.teamsparta.backoffice.domain.menu.dto.request.StatusRequest
+import com.teamsparta.backoffice.domain.menu.dto.request.MenuStatusRequest
 import com.teamsparta.backoffice.domain.menu.dto.response.MenuListResponse
 import com.teamsparta.backoffice.domain.menu.dto.response.MenuResponse
 import com.teamsparta.backoffice.domain.menu.model.*
@@ -56,7 +56,7 @@ class MenuServiceImpl(
 
     // 메뉴 상태변경
     @Transactional
-    override fun menuStatusChange(menuId: Long, storeId: Long, request: StatusRequest): MenuResponse {
+    override fun menuStatusChange(menuId: Long, storeId: Long, request: MenuStatusRequest): MenuResponse {
         // 해당 메뉴가 존재하는지 확인
         val menu = menuRepository.findByIdOrNull(menuId) ?: throw ModelNotFoundException("menuId", menuId)
 
