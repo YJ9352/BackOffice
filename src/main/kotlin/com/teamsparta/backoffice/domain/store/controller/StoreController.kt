@@ -24,7 +24,7 @@ class StoreController(
     ): ResponseEntity<List<StoreListResponse>> {
         return ResponseEntity
             .status(HttpStatus.OK)
-            .body(storeService.getStoreByUserId(userId = userPrincipal.id))
+            .body(storeService.getStoreByUserId(userPrincipal.id))
     }
 
     // 가게 생성
@@ -59,7 +59,7 @@ class StoreController(
     ): ResponseEntity<StoreResponse> {
         return ResponseEntity
             .status(HttpStatus.OK)
-            .body(storeService.storeStatusChange(storeId, userId = userPrincipal.id, request))
+            .body(storeService.storeStatusChange(storeId, userPrincipal.id, request))
     }
 
 }

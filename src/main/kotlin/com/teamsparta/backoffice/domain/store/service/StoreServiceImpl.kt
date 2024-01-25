@@ -38,7 +38,7 @@ class StoreServiceImpl(
                 profileImgUrl = request.profileImgUrl,
                 category = request.category,
                 address = request.address,
-                phone = request.address,
+                phone = request.phone,
                 description = request.description,
                 status = StoreStatus.OPEN,
             )
