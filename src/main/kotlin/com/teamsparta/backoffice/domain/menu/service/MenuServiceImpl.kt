@@ -13,7 +13,6 @@ import com.teamsparta.backoffice.domain.menu.model.toMenuResponse
 import com.teamsparta.backoffice.domain.menu.repository.MenuRepository
 import com.teamsparta.backoffice.domain.store.repository.StoreRepository
 import com.teamsparta.backoffice.domain.user.repository.UserRepository
-import org.springframework.data.jpa.domain.AbstractPersistable_.id
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.security.access.AccessDeniedException
 import org.springframework.stereotype.Service
@@ -41,7 +40,7 @@ class MenuServiceImpl(
         if (store.user.id != userId) {
             throw AccessDeniedException("본인이 개설한 가게에만 메뉴를 추가할 수 있습니다.")
         }
-         return menuRepository.save(
+        return menuRepository.save(
             Menu(
                 name = request.name,
                 imageUrl = request.imageUrl,
