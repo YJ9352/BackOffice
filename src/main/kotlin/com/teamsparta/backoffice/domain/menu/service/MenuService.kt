@@ -1,7 +1,7 @@
 package com.teamsparta.backoffice.domain.menu.service
 
 import com.teamsparta.backoffice.domain.menu.dto.request.MenuRequest
-import com.teamsparta.backoffice.domain.menu.dto.request.StatusRequest
+import com.teamsparta.backoffice.domain.menu.dto.request.MenuStatusRequest
 import com.teamsparta.backoffice.domain.menu.dto.response.MenuListResponse
 import com.teamsparta.backoffice.domain.menu.dto.response.MenuResponse
 
@@ -17,5 +17,5 @@ interface MenuService {
     fun modifyMenu(menuId: Long, request: MenuRequest): MenuResponse
 
     // 메뉴 상태변경
-    fun menuStatusChange(menuId: Long, storeId: Long, request: StatusRequest): MenuResponse
+    fun menuStatusChange(menuId: Long, storeId: Long, request: MenuStatusRequest): MenuResponse
 }
