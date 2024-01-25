@@ -11,11 +11,11 @@ interface MenuService {
     fun getAllMenu(storeId: Long): List<MenuListResponse>
 
     // 메뉴 추가
-    fun createMenu(userId: Long, storeId: Long, request: MenuRequest): MenuResponse
+    fun createMenu(storeId: Long, userId: Long, request: MenuRequest): MenuResponse
 
     // 메뉴 수정
-    fun modifyMenu(menuId: Long, request: MenuRequest): MenuResponse
+    fun modifyMenu(menuId: Long, userId: Long, storeId: Long, request: MenuRequest): MenuResponse
 
     // 메뉴 상태변경
-    fun menuStatusChange(menuId: Long, storeId: Long, request: MenuStatusRequest): MenuResponse
+    fun menuStatusChange(menuId: Long, storeId: Long, userId: Long, request: MenuStatusRequest): MenuResponse
 }

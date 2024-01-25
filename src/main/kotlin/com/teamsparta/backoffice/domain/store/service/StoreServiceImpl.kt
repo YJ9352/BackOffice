@@ -71,10 +71,14 @@ class StoreServiceImpl(
         val store = storeRepository.findByIdOrNull(storeId) ?: throw ModelNotFoundException("storeId", storeId)
 
         store.status = when (request.status) {
-            "OPEN" -> if (store.user.id == userId)
-                StoreStatus.OPEN else throw ModelNotFoundException("userId", userId)
-            "CLOSED" -> if (store.user.id == userId)
-                StoreStatus.CLOSED else throw ModelNotFoundException("userId",userId)
+            "OPEN" ->
+                if (store.user.id == userId) StoreStatus.OPEN
+                else throw ModelNotFoundException("userId", userId)
+
+            "CLOSED" ->
+                if (store.user.id == userId) StoreStatus.CLOSED
+                else throw ModelNotFoundException("userId",userId)
+
             else -> throw StringNotFoundException("status", request.status)
         }
 

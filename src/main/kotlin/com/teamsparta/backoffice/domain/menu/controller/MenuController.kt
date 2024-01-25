@@ -29,30 +29,35 @@ class MenuController(
     // 메뉴 추가
     @PostMapping()
     fun createMenu(
-        @AuthenticationPrincipal userPrincipal: UserPrincipal,
         @PathVariable storeId: Long,
+        @AuthenticationPrincipal userPrincipal: UserPrincipal,
         @RequestBody request: MenuRequest,
     ): ResponseEntity<MenuResponse> {
         return ResponseEntity.status(HttpStatus.CREATED)
-            .body(menuService.createMenu(userPrincipal.id, storeId, request))
+            .body(menuService.createMenu(storeId, userPrincipal.id, request))
     }
 
     // 메뉴 수정
     @PutMapping("/{menuId}")
     fun modifyMenu(
-        @PathVariable storeId: Long, @PathVariable menuId: Long, @RequestBody request: MenuRequest
+        @PathVariable storeId: Long,
+        @PathVariable menuId: Long,
+        @AuthenticationPrincipal userPrincipal: UserPrincipal,
+        @RequestBody request: MenuRequest
     ): ResponseEntity<MenuResponse> {
         return ResponseEntity.status(HttpStatus.OK)
-            .body(menuService.modifyMenu(menuId, request))
+            .body(menuService.modifyMenu(menuId, userPrincipal.id, storeId, request))
     }
 
     // 메뉴 상태변경
     @PutMapping("/{menuId}/status")
     fun menuStatusChange(
-        @PathVariable menuId: Long, @PathVariable storeId: Long, @RequestBody request: MenuStatusRequest
+        @PathVariable menuId: Long,
+        @PathVariable storeId: Long,
+        @RequestBody request: MenuStatusRequest
     ): ResponseEntity<MenuResponse> {
         return ResponseEntity.status(HttpStatus.OK)
-            .body(menuService.menuStatusChange(menuId, storeId, request))
+            .body(menuService.menuStatusChange(menuId, storeId, menuId, request))
     }
 
 }
