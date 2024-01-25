@@ -19,4 +19,10 @@ interface ReviewService {
         userId: Long,
         reviewId: Long,
         request: UpdateReviewRequest): ReviewResponse
+
+    fun deleteReview(
+        storeId: Long,
+        userId: Long,
+        reviewId: Long)
+
 }
