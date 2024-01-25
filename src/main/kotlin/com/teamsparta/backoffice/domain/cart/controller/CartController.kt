@@ -35,12 +35,12 @@ class CartController(
     }
 
     @DeleteMapping
-    fun deleteCart(
+    fun cleanMyCart(
         @AuthenticationPrincipal userPrincipal: UserPrincipal
     ): ResponseEntity<Unit> {
         return ResponseEntity
             .status(HttpStatus.NO_CONTENT)
-            .body(cartService.deleteCartByUserId(userPrincipal.id))
+            .body(cartService.cleanMyCart(userPrincipal.id))
     }
 
     @DeleteMapping("/{cartMenuId}")

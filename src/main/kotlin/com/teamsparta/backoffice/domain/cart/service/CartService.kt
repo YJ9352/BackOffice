@@ -8,6 +8,6 @@ interface CartService {
 
     fun addCartMenu(userId: Long, addCartMenuRequest: AddCartMenuRequest): CartResponse
     fun getCartByUserId(userId: Long): CartResponse
-    fun deleteCartByUserId(userId: Long)
+    fun cleanMyCart(userId: Long)
     fun deleteCartMenu(userId: Long, cartMenuId: Long)
 }

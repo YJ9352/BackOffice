@@ -68,10 +68,10 @@ class CartServiceImpl(
     }
 
     @Transactional
-    override fun deleteCartByUserId(userId: Long) {
+    override fun cleanMyCart(userId: Long) {
         val cart = cartRepository.findByUserId(userId) ?: throw ModelNotFoundException("Cart", userId)
-        cartMenuRepository.deleteByCartId(cart.id!!)
-        return cartRepository.deleteByUserId(userId)
+
+        return cartMenuRepository.deleteByCartId(cart.id!!)
     }
 
     @Transactional
