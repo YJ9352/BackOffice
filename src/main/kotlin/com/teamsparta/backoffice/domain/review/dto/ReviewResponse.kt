@@ -1,6 +1,5 @@
 package com.teamsparta.backoffice.domain.review.dto
 
-import java.time.LocalDateTime
 
 data class ReviewResponse(
     val id: Long,

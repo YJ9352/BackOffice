@@ -3,15 +3,20 @@ package com.teamsparta.backoffice.domain.review.service
 import com.teamsparta.backoffice.domain.exception.ModelNotFoundException
 import com.teamsparta.backoffice.domain.review.dto.AddReviewRequest
 import com.teamsparta.backoffice.domain.review.dto.ReviewResponse
+import com.teamsparta.backoffice.domain.review.dto.UpdateReviewRequest
 import com.teamsparta.backoffice.domain.review.model.Review
 import com.teamsparta.backoffice.domain.review.model.toResponse
 import com.teamsparta.backoffice.domain.review.repository.ReviewRepository
 import com.teamsparta.backoffice.domain.user.model.User
 import com.teamsparta.backoffice.domain.user.repository.UserRepository
+import com.teamsparta.backoffice.infra.security.CustomAccessDeniedHandler
+import com.teamsparta.backoffice.infra.security.jwt.UserPrincipal
 import jakarta.transaction.Transactional
 import org.springframework.data.jpa.domain.AbstractPersistable_.id
 import org.springframework.data.repository.findByIdOrNull
+import org.springframework.security.web.access.AccessDeniedHandler
 import org.springframework.stereotype.Service
+import java.time.LocalDateTime
 
 @Service
 class ReviewServiceImpl(
@@ -40,4 +45,24 @@ class ReviewServiceImpl(
         )
         return reviewRepository.save(review).toResponse()
     }
+
+    @Transactional
+    override fun updateReview(
+        storeId: Long,
+        userId: Long,
+        reviewId: Long,
+        request: UpdateReviewRequest
+    ): ReviewResponse {
+//        TODO("storeid 조회 후 modelNotFound")
+        val review = reviewRepository.findByIdOrNull(reviewId)
+            ?: throw ModelNotFoundException("review", reviewId)
+        val user = userRepository.findByIdOrNull(userId)
+            ?: throw ModelNotFoundException("user", userId)
+
+        if (review.user.id != user.id) throw
+
+        review.content = request.content
+        review.updatedAt = LocalDateTime.now()
+
+        return reviewRepository.save(review).toResponse()
 }
