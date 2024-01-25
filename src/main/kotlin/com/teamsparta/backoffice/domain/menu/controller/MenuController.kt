@@ -1,7 +1,7 @@
 package com.teamsparta.backoffice.domain.menu.controller
 
 import com.teamsparta.backoffice.domain.menu.dto.request.MenuRequest
-import com.teamsparta.backoffice.domain.menu.dto.request.StatusRequest
+import com.teamsparta.backoffice.domain.menu.dto.request.MenuStatusRequest
 import com.teamsparta.backoffice.domain.menu.dto.response.MenuListResponse
 import com.teamsparta.backoffice.domain.menu.dto.response.MenuResponse
 import com.teamsparta.backoffice.domain.menu.service.MenuService
@@ -46,7 +46,7 @@ class MenuController(
     fun menuStatusChange(
             @PathVariable menuId: Long,
             @PathVariable storeId: Long,
-            @RequestBody request: StatusRequest
+            @RequestBody request: MenuStatusRequest
     ): ResponseEntity<MenuResponse> {
         return ResponseEntity.status(HttpStatus.OK).body(menuService.menuStatusChange(menuId, storeId, request))
     }
