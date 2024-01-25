@@ -34,7 +34,7 @@ class Store(
     @JoinColumn(name = "user_id")
     val userId: Long,
 
-){
+    ) {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

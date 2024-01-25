@@ -9,13 +9,7 @@ import com.teamsparta.backoffice.infra.security.jwt.UserPrincipal
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.security.core.annotation.AuthenticationPrincipal
-import org.springframework.web.bind.annotation.GetMapping
-import org.springframework.web.bind.annotation.PathVariable
-import org.springframework.web.bind.annotation.PostMapping
-import org.springframework.web.bind.annotation.PutMapping
-import org.springframework.web.bind.annotation.RequestBody
-import org.springframework.web.bind.annotation.RequestMapping
-import org.springframework.web.bind.annotation.RestController
+import org.springframework.web.bind.annotation.*
 
 @RestController
 @RequestMapping("/stores")
@@ -28,7 +22,9 @@ class StoreController(
     fun getStoreByUserId(
         @AuthenticationPrincipal userPrincipal: UserPrincipal
     ): ResponseEntity<List<StoreListResponse>> {
-        return ResponseEntity.status(HttpStatus.OK).body(storeService.getStoreByUserId(userId = userPrincipal.id))
+        return ResponseEntity
+            .status(HttpStatus.OK)
+            .body(storeService.getStoreByUserId(userId = userPrincipal.id))
     }
 
     // 가게 생성
@@ -37,7 +33,9 @@ class StoreController(
         @RequestBody request: StoreRequest,
         @AuthenticationPrincipal userPrincipal: UserPrincipal
     ): ResponseEntity<StoreResponse> {
-        return ResponseEntity.status(HttpStatus.CREATED).body(storeService.createStore(userPrincipal.id, request))
+        return ResponseEntity
+            .status(HttpStatus.CREATED)
+            .body(storeService.createStore(userPrincipal.id, request))
     }
 
     // 가게 정보 수정
@@ -47,7 +45,9 @@ class StoreController(
         @AuthenticationPrincipal userPrincipal: UserPrincipal,
         @RequestBody request: StoreRequest
     ): ResponseEntity<StoreResponse> {
-        return ResponseEntity.status(HttpStatus.OK).body(storeService.modifyStore(storeId, userPrincipal.id, request))
+        return ResponseEntity
+            .status(HttpStatus.OK)
+            .body(storeService.modifyStore(storeId, userPrincipal.id, request))
     }
 
     // 가게 영업상태 변경
@@ -57,7 +57,9 @@ class StoreController(
         @AuthenticationPrincipal userPrincipal: UserPrincipal,
         @RequestBody request: StoreStatusRequest
     ): ResponseEntity<StoreResponse> {
-        return ResponseEntity.status(HttpStatus.OK).body(storeService.storeStatusChange(storeId, userId = userPrincipal.id, request))
+        return ResponseEntity
+            .status(HttpStatus.OK)
+            .body(storeService.storeStatusChange(storeId, userId = userPrincipal.id, request))
     }
 
 }

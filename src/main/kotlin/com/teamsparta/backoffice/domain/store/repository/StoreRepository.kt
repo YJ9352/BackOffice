@@ -1,6 +1,5 @@
 package com.teamsparta.backoffice.domain.store.repository
 
-import com.teamsparta.backoffice.domain.store.dto.response.StoreResponse
 import com.teamsparta.backoffice.domain.store.model.Store
 import org.springframework.data.jpa.repository.JpaRepository
 
