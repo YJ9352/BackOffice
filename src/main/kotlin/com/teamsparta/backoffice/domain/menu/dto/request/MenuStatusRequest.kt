@@ -1,5 +1,5 @@
 package com.teamsparta.backoffice.domain.menu.dto.request
 
-data class StatusRequest(
+data class MenuStatusRequest(
         val status: String
 )
