@@ -7,6 +7,6 @@ import com.teamsparta.backoffice.domain.order.dto.OrderResponse
 
 interface OrderService {
     fun getOrderList(userId: Long, status: String, storeId: Long): List<OrderResponse>
-    fun createOrder(id: Long, createOrderRequest: CreateOrderRequest): OrderResponse
+    fun createOrder(userId: Long, createOrderRequest: CreateOrderRequest): OrderResponse
     fun changeOrderStatus(changeOrderStatusRequest: ChangeOrderStatusRequest): OrderResponse
 }
