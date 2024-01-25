@@ -11,7 +11,6 @@ import com.teamsparta.backoffice.domain.store.model.StoreStatus
 import com.teamsparta.backoffice.domain.store.model.toStoreListResponse
 import com.teamsparta.backoffice.domain.store.model.toStoreResponse
 import com.teamsparta.backoffice.domain.store.repository.StoreRepository
-import com.teamsparta.backoffice.domain.user.model.User
 import com.teamsparta.backoffice.domain.user.repository.UserRepository
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.security.access.AccessDeniedException
