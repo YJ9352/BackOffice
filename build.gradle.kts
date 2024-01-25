@@ -30,6 +30,8 @@ dependencies {
 	implementation("io.jsonwebtoken:jjwt-api:0.12.3")
 	//swagger
 	implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.2.0")
+	// validation
+	implementation("org.springframework.boot:spring-boot-starter-validation")
 	developmentOnly("org.springframework.boot:spring-boot-devtools")
 	runtimeOnly("org.postgresql:postgresql")
 	//jwt
@@ -37,6 +39,10 @@ dependencies {
 	runtimeOnly("io.jsonwebtoken:jjwt-jackson:0.12.3")
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
 	testImplementation("org.springframework.security:spring-security-test")
+
+	implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.2.0")
+
+
 }
 
 tasks.withType<KotlinCompile> {

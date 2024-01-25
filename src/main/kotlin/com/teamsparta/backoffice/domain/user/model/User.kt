@@ -1,7 +1,7 @@
 package com.teamsparta.backoffice.domain.user.model
 
-import com.teamsparta.backoffice.domain.user.dto.ModifyUserRequest
 import com.teamsparta.backoffice.domain.user.dto.GetUserResponse
+import com.teamsparta.backoffice.domain.user.dto.ModifyUserRequest
 import com.teamsparta.backoffice.domain.user.dto.UserResponse
 import com.teamsparta.backoffice.infra.audit.BaseTimeEntity
 import jakarta.persistence.*
@@ -37,6 +37,7 @@ class User(
         phoneNumber = request.phoneNumber
 
     }
+
 }
 
 fun User.toResponseMail(): UserResponse {

@@ -25,6 +25,7 @@ class AccountController(
         val user = userRepository.findByIdOrNull(userPrincipal.id)
         return ResponseEntity.status(HttpStatus.OK).body(accountService.getMyAccount(user?.account?.id))
     }
+
     //2. 입금하기
     @PutMapping("/deposit")
     fun modifyMyAccount(
