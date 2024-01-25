@@ -1,10 +1,11 @@
 package com.teamsparta.backoffice.domain.order.model
 
+import com.teamsparta.backoffice.domain.user.model.User
 import jakarta.persistence.*
 import java.time.LocalDateTime
 
 @Entity
-@Table(name = "order")
+@Table(name = "`order`")
 class Order(
     @Enumerated(EnumType.STRING)
     @Column(name = "order_status", nullable = false)
@@ -16,14 +17,13 @@ class Order(
     @Column(name = "order_payment_time")
     var paymentTime : LocalDateTime,
 
-    // TODO user
-    // @ManyToOne
-    var userId : Long,
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    var user : User,
 
     // TODO store
     // @ManyToOne
     var storeId : Long
-
 
 ) {
     @Id

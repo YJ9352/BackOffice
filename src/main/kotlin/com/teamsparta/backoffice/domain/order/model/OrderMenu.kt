@@ -1,21 +1,24 @@
 package com.teamsparta.backoffice.domain.order.model
 
+import com.teamsparta.backoffice.domain.menu.model.Menu
 import jakarta.persistence.*
 
 
 @Entity
+@Table(name = "order_menu")
 class OrderMenu(
-    // TODO @ManyToOne menu
-    var menuId : Long,
+    @ManyToOne
+    @JoinColumn(name = "menu_id")
+    var menu: Menu,
 
     @ManyToOne
-    @JoinColumn(name = "order_id", nullable = false)
+    @JoinColumn(name = "order_id")
     var order: Order,
 
     @Column(name = "order_menu_quantity")
-    var quantity:Int
+    var quantity: Int
 
-    ) {
+) {
     @Id
     @Column(name = "order_menu_id", nullable = false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
