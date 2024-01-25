@@ -1,7 +1,7 @@
 package com.teamsparta.backoffice.domain.user.service
 
-import com.teamsparta.backoffice.domain.user.dto.AccountRequest
-import com.teamsparta.backoffice.domain.user.dto.AccountResponse
+import com.teamsparta.backoffice.domain.user.dto.account.AccountRequest
+import com.teamsparta.backoffice.domain.user.dto.account.AccountResponse
 import com.teamsparta.backoffice.domain.user.model.toResponse
 import com.teamsparta.backoffice.domain.user.repository.AccountRepository
 import jakarta.transaction.Transactional

@@ -1,6 +1,6 @@
 package com.teamsparta.backoffice.domain.user.controller
 
-import com.teamsparta.backoffice.domain.user.dto.*
+import com.teamsparta.backoffice.domain.user.dto.users.*
 import com.teamsparta.backoffice.domain.user.service.UserService
 import com.teamsparta.backoffice.infra.security.jwt.UserPrincipal
 import jakarta.validation.Valid

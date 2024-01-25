@@ -32,6 +32,8 @@ dependencies {
 	implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.2.0")
 	// validation
 	implementation("org.springframework.boot:spring-boot-starter-validation")
+	// oauth2
+	implementation("org.springframework.boot:spring-boot-starter-oauth2-client")
 	developmentOnly("org.springframework.boot:spring-boot-devtools")
 	runtimeOnly("org.postgresql:postgresql")
 	//jwt

@@ -4,7 +4,7 @@ import com.teamsparta.backoffice.domain.exception.CustomException
 import com.teamsparta.backoffice.domain.exception.ExistingValueException
 import com.teamsparta.backoffice.domain.exception.ModelNotFoundException
 import com.teamsparta.backoffice.domain.exception.StringNotFoundException
-import com.teamsparta.backoffice.domain.user.dto.*
+import com.teamsparta.backoffice.domain.user.dto.users.*
 import com.teamsparta.backoffice.domain.user.model.*
 import com.teamsparta.backoffice.domain.user.repository.UserRepository
 import com.teamsparta.backoffice.infra.regex.RegexFunc
