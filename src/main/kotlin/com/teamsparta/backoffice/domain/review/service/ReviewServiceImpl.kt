@@ -1,9 +1,9 @@
 package com.teamsparta.backoffice.domain.review.service
 
 import com.teamsparta.backoffice.domain.exception.ModelNotFoundException
-import com.teamsparta.backoffice.domain.review.dto.AddReviewRequest
-import com.teamsparta.backoffice.domain.review.dto.ReviewResponse
-import com.teamsparta.backoffice.domain.review.dto.UpdateReviewRequest
+import com.teamsparta.backoffice.domain.review.dto.reviewDto.AddReviewRequest
+import com.teamsparta.backoffice.domain.review.dto.reviewDto.ReviewResponse
+import com.teamsparta.backoffice.domain.review.dto.reviewDto.UpdateReviewRequest
 import com.teamsparta.backoffice.domain.review.model.Review
 import com.teamsparta.backoffice.domain.review.model.toResponse
 import com.teamsparta.backoffice.domain.review.repository.ReviewRepository
@@ -11,6 +11,8 @@ import com.teamsparta.backoffice.domain.user.repository.UserRepository
 import jakarta.transaction.Transactional
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.security.access.AccessDeniedException
+import org.springframework.security.access.prepost.PreAuthorize
+import org.springframework.security.authorization.AuthorityAuthorizationManager.hasRole
 import org.springframework.stereotype.Service
 import java.time.LocalDateTime
 
@@ -31,13 +33,13 @@ class ReviewServiceImpl(
     ): ReviewResponse {
 
 //        TODO("storeRepository findbyornull로 조회 후 throw modelnotfound")
-
+        val store = storeRepository
         val user = userRepository.findByIdOrNull(userId) ?: throw ModelNotFoundException("user", userId)
 
         val review = Review(
             content = request.content,
             rating = request.rating,
-            store = storeId,
+            store = store,
             user = user
         )
         return reviewRepository.save(review).toResponse()

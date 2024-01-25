@@ -1,4 +1,4 @@
-package com.teamsparta.backoffice.domain.review.dto
+package com.teamsparta.backoffice.domain.review.dto.reviewDto
 
 
 data class ReviewResponse(

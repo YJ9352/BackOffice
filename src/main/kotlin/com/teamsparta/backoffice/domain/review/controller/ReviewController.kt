@@ -1,8 +1,8 @@
 package com.teamsparta.backoffice.domain.review.controller
 
-import com.teamsparta.backoffice.domain.review.dto.AddReviewRequest
-import com.teamsparta.backoffice.domain.review.dto.ReviewResponse
-import com.teamsparta.backoffice.domain.review.dto.UpdateReviewRequest
+import com.teamsparta.backoffice.domain.review.dto.reviewDto.AddReviewRequest
+import com.teamsparta.backoffice.domain.review.dto.reviewDto.ReviewResponse
+import com.teamsparta.backoffice.domain.review.dto.reviewDto.UpdateReviewRequest
 import com.teamsparta.backoffice.domain.review.service.ReviewService
 import com.teamsparta.backoffice.infra.security.jwt.UserPrincipal
 import org.springframework.http.HttpStatus
@@ -66,4 +66,5 @@ class ReviewController(
             .status(HttpStatus.NO_CONTENT)
             .build()
     }
+
 }
