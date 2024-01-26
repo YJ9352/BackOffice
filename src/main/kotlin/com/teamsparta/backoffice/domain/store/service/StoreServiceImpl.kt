@@ -7,6 +7,7 @@ import com.teamsparta.backoffice.domain.store.dto.request.StoreStatusRequest
 import com.teamsparta.backoffice.domain.store.dto.response.StoreListResponse
 import com.teamsparta.backoffice.domain.store.dto.response.StoreResponse
 import com.teamsparta.backoffice.domain.store.dto.response.UserStoreListResponse
+import com.teamsparta.backoffice.domain.store.dto.response.UserStoreResponse
 import com.teamsparta.backoffice.domain.store.model.*
 import com.teamsparta.backoffice.domain.store.repository.StoreRepository
 import com.teamsparta.backoffice.domain.user.repository.UserRepository
@@ -27,8 +28,8 @@ class StoreServiceImpl(
     }
 
     // 가게 개별 정보 조회(사용자)
-    override fun getStroreDetails(storeId: Long): List<StoreResponse> {
-        return storeRepository.findAllById(storeId).map { it.toStoreResponse() }
+    override fun getStroreDetails(storeId: Long): List<UserStoreResponse> {
+        return storeRepository.findAllById(storeId).map { it.UserStoreResponse() }
     }
 
     // 본인 가게 목록 조회

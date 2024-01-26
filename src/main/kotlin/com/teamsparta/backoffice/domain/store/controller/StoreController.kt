@@ -5,6 +5,7 @@ import com.teamsparta.backoffice.domain.store.dto.request.StoreStatusRequest
 import com.teamsparta.backoffice.domain.store.dto.response.StoreListResponse
 import com.teamsparta.backoffice.domain.store.dto.response.StoreResponse
 import com.teamsparta.backoffice.domain.store.dto.response.UserStoreListResponse
+import com.teamsparta.backoffice.domain.store.dto.response.UserStoreResponse
 import com.teamsparta.backoffice.domain.store.service.StoreService
 import com.teamsparta.backoffice.infra.security.jwt.UserPrincipal
 import org.springframework.http.HttpStatus
@@ -26,7 +27,7 @@ class StoreController(
 
     // 가게 개별 정보 조회(사용자)
     @GetMapping("/{storeId}/")
-    fun getStroreDetails(@PathVariable storeId: Long): ResponseEntity<List<StoreResponse>> {
+    fun getStroreDetails(@PathVariable storeId: Long): ResponseEntity<List<UserStoreResponse>> {
         return ResponseEntity.status(HttpStatus.OK).body(storeService.getStroreDetails(storeId))
     }
 

@@ -3,6 +3,7 @@ package com.teamsparta.backoffice.domain.store.model
 import com.teamsparta.backoffice.domain.store.dto.response.StoreListResponse
 import com.teamsparta.backoffice.domain.store.dto.response.StoreResponse
 import com.teamsparta.backoffice.domain.store.dto.response.UserStoreListResponse
+import com.teamsparta.backoffice.domain.store.dto.response.UserStoreResponse
 import com.teamsparta.backoffice.domain.user.model.User
 import jakarta.persistence.*
 
@@ -73,6 +74,21 @@ fun Store.UserStoreListResponse(): UserStoreListResponse {
     return UserStoreListResponse(
         storeId = id!!,
         name = name,
-        profileImgUrl = profileImgUrl
+        profileImgUrl = profileImgUrl,
+        status = status.name
+    )
+}
+
+fun Store.UserStoreResponse(): UserStoreResponse {
+    return UserStoreResponse(
+        storeId = id!!,
+        name = name,
+        profileImgUrl = profileImgUrl,
+        category = category,
+        address = address,
+        phone = phone,
+        description = description,
+        status = status.name
+
     )
 }

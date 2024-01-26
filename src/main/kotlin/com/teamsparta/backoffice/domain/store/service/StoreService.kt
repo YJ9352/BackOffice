@@ -5,6 +5,7 @@ import com.teamsparta.backoffice.domain.store.dto.request.StoreStatusRequest
 import com.teamsparta.backoffice.domain.store.dto.response.StoreListResponse
 import com.teamsparta.backoffice.domain.store.dto.response.StoreResponse
 import com.teamsparta.backoffice.domain.store.dto.response.UserStoreListResponse
+import com.teamsparta.backoffice.domain.store.dto.response.UserStoreResponse
 
 interface StoreService {
 
@@ -12,7 +13,7 @@ interface StoreService {
     fun getStoreList(): List<UserStoreListResponse>
 
     // 가게 개별 정보 조회(사용자)
-    fun getStroreDetails(storeId: Long): List<StoreResponse>
+    fun getStroreDetails(storeId: Long): List<UserStoreResponse>
 
     // 본인 가게 목록 조회
     fun getStoreByUserId(userId: Long): List<StoreListResponse>
