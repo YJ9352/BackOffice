@@ -7,12 +7,12 @@ import com.teamsparta.backoffice.domain.cart.model.Cart
 import com.teamsparta.backoffice.domain.cart.model.CartMenu
 import com.teamsparta.backoffice.domain.cart.repository.CartMenuRepository
 import com.teamsparta.backoffice.domain.cart.repository.CartRepository
+import com.teamsparta.backoffice.domain.exception.CustomException
 import com.teamsparta.backoffice.domain.exception.ModelNotFoundException
 import com.teamsparta.backoffice.domain.menu.repository.MenuRepository
 import com.teamsparta.backoffice.domain.store.repository.StoreRepository
 import com.teamsparta.backoffice.domain.user.repository.UserRepository
 import org.springframework.data.repository.findByIdOrNull
-import org.springframework.security.access.AccessDeniedException
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 
@@ -48,7 +48,7 @@ class CartServiceImpl(
             ?: throw ModelNotFoundException("menu", addCartMenuRequest.menuId)
 
         if (menu.store.id != cart.store.id) {
-            throw IllegalStateException("동일한 가게의 메뉴만 장바구니에 넣을 수 있음")
+            throw CustomException("동일한 가게의 메뉴만 장바구니에 넣을 수 있음")
         }
 
         cartMenuRepository.save(
@@ -63,7 +63,8 @@ class CartServiceImpl(
 
     override fun getCartByUserId(userId: Long): CartResponse {
         val cart = cartRepository.findByUserId(userId) ?: throw ModelNotFoundException("Cart", userId)
-        val cartMenuList = cartMenuRepository.findByCartId(cart.id!!)
+        val cartMenuList =
+            cartMenuRepository.findByCartId(cart.id!!) ?: throw ModelNotFoundException("cartMenu", cart.id)
         val totalPrice = cartMenuList
             .fold(0) { acc: Int, cartMenu -> acc + (cartMenu.menu.price * cartMenu.quantity) }
 
@@ -84,7 +85,7 @@ class CartServiceImpl(
             ?: throw ModelNotFoundException("CartMenu", cartMenuId)
 
         if (cartMenu.cart.user.id != userId) {
-            throw AccessDeniedException("다른 사람의 장바구니에 접근 불가")
+            throw CustomException("다른 사람의 장바구니에 접근 불가")
         }
         cartMenuRepository.deleteById(cartMenuId)
         return getCartByUserId(userId)
