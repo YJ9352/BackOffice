@@ -1,5 +1,6 @@
 package com.teamsparta.backoffice.domain.cart.model
 
+import com.teamsparta.backoffice.domain.store.model.Store
 import com.teamsparta.backoffice.domain.user.model.User
 import jakarta.persistence.*
 
@@ -9,8 +10,9 @@ data class Cart(
     @OneToOne
     @JoinColumn(name = "user_id")
     val user: User,
-    // Todo @ManyToOne
-    val storeId: Long
+    @ManyToOne
+    @JoinColumn(name = "store_id")
+    val store: Store
 
 ) {
     @Id
