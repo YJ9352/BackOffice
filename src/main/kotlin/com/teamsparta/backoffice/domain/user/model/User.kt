@@ -1,7 +1,6 @@
 package com.teamsparta.backoffice.domain.user.model
 
 import com.teamsparta.backoffice.domain.user.dto.users.GetUserResponse
-import com.teamsparta.backoffice.domain.user.dto.users.ModifyUserRequest
 import com.teamsparta.backoffice.domain.user.dto.users.UserResponse
 import com.teamsparta.backoffice.infra.audit.BaseTimeEntity
 import jakarta.persistence.*
@@ -30,13 +29,6 @@ class User(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     var id: Long? = null
-
-    fun modifyUser(request: ModifyUserRequest) {
-        nickname = request.nickname
-        password = request.password
-        phoneNumber = request.phoneNumber
-    }
-
 
 }
 

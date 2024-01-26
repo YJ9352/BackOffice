@@ -93,7 +93,9 @@ class UserServiceImpl(
             //2. 입력받은 비밀번호와 재입력받은 비밀번호가 같으면
             if (request.password == request.reenter) {
                 //3. 유저 정보를 수정하여 저장
-                user.modifyUser(request)
+                user.nickname = request.nickname
+                user.password = passwordEncoder.encode(regexFunc.regexPassword(request.password))
+                user.phoneNumber = regexFunc.regexPhoneNumber(request.phoneNumber)
                 return user.toResponse()
             } else throw CustomException("재입력된 비밀번호가 일치하지 않습니다.")
 
