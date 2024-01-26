@@ -27,12 +27,12 @@ class StoreController(
 
     // 가게 개별 정보 조회(사용자)
     @GetMapping("/{storeId}/")
-    fun getStroreDetails(@PathVariable storeId: Long): ResponseEntity<List<UserStoreResponse>> {
+    fun getStoreDetails(@PathVariable storeId: Long): ResponseEntity<List<UserStoreResponse>> {
         return ResponseEntity.status(HttpStatus.OK).body(storeService.getStroreDetails(storeId))
     }
 
     // 본인 가게 목록 조회
-    @GetMapping()
+    @GetMapping
     fun getStoreByUserId(
         @AuthenticationPrincipal userPrincipal: UserPrincipal
     ): ResponseEntity<List<StoreListResponse>> {
@@ -42,7 +42,7 @@ class StoreController(
     }
 
     // 가게 생성
-    @PostMapping()
+    @PostMapping
     fun createStore(
         @RequestBody request: StoreRequest,
         @AuthenticationPrincipal userPrincipal: UserPrincipal
