@@ -95,7 +95,7 @@ class CartServiceImpl(
             cartMenuId = id!!,
             menuId = menu.id,
             name = menu.name,
-            price = menu.price * quantity,
+            price = menu.price,
             quantity = quantity
         )
     }
