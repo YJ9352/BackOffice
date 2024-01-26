@@ -49,6 +49,15 @@ class OrderController(
     }
 
     @PatchMapping("/{orderId}")
+    @Operation(
+        description = "STATUS : " +
+                "CONFIRM_WAIT,\n" +
+                "COOKING,\n" +
+                "CUSTOMER_CANCEL,\n" +
+                "STORE_CANCEL,\n" +
+                "DELIVERING,\n" +
+                "FINISH"
+    )
     fun changeOrderStatus(
         @AuthenticationPrincipal userPrincipal: UserPrincipal,
         @RequestBody changeOrderStatusRequest: ChangeOrderStatusRequest,
