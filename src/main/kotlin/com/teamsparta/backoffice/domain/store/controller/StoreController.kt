@@ -47,7 +47,7 @@ class StoreController(
     ): ResponseEntity<StoreResponse> {
         return ResponseEntity
             .status(HttpStatus.OK)
-            .body(storeService.modifyStore(storeId, userPrincipal.id, request))
+            .body(storeService.modifyStore(userPrincipal.id, storeId, request))
     }
 
     // 가게 영업상태 변경

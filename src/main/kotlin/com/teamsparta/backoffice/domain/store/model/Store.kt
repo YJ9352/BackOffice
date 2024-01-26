@@ -2,6 +2,7 @@ package com.teamsparta.backoffice.domain.store.model
 
 import com.teamsparta.backoffice.domain.store.dto.response.StoreListResponse
 import com.teamsparta.backoffice.domain.store.dto.response.StoreResponse
+import com.teamsparta.backoffice.domain.user.model.User
 import jakarta.persistence.*
 
 @Entity
@@ -30,22 +31,22 @@ class Store(
     @Column(name = "status")
     var status: StoreStatus,
 
-//    @ManyToOne
+    @ManyToOne
     @JoinColumn(name = "user_id")
-    val userId: Long,
+    val user: User,
 
     ) {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "store_id")
-    val id: Long = 0L
+    val id: Long? = null
 
 }
 
 fun Store.toStoreResponse(): StoreResponse {
     return StoreResponse(
-        storeId = id,
+        storeId = id!!,
         name = name,
         profileImgUrl = profileImgUrl,
         category = category,
@@ -58,7 +59,7 @@ fun Store.toStoreResponse(): StoreResponse {
 
 fun Store.toStoreListResponse(): StoreListResponse {
     return StoreListResponse(
-        storeId = id,
+        storeId = id!!,
         name = name,
         category = category,
         address = address,
