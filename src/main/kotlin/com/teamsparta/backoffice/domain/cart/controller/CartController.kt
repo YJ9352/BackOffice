@@ -12,44 +12,44 @@ import org.springframework.web.bind.annotation.*
 @RestController
 @RequestMapping("/carts")
 class CartController(
-        private val cartService: CartService
+    private val cartService: CartService
 ) {
 
     @PostMapping
     fun addCartMenu(
-            @AuthenticationPrincipal userPrincipal: UserPrincipal,
-            @RequestBody addCartMenuRequest: AddCartMenuRequest
+        @AuthenticationPrincipal userPrincipal: UserPrincipal,
+        @RequestBody addCartMenuRequest: AddCartMenuRequest
     ): ResponseEntity<CartResponse> {
         return ResponseEntity
-                .status(HttpStatus.OK)
-                .body(cartService.addCartMenu(userPrincipal.id, addCartMenuRequest))
+            .status(HttpStatus.OK)
+            .body(cartService.addCartMenu(userPrincipal.id, addCartMenuRequest))
     }
 
     @GetMapping
     fun getMyCart(
-            @AuthenticationPrincipal userPrincipal: UserPrincipal
+        @AuthenticationPrincipal userPrincipal: UserPrincipal
     ): ResponseEntity<CartResponse> {
         return ResponseEntity
-                .status(HttpStatus.OK)
-                .body(cartService.getCartByUserId(userPrincipal.id))
+            .status(HttpStatus.OK)
+            .body(cartService.getCartByUserId(userPrincipal.id))
     }
 
     @DeleteMapping
     fun cleanMyCart(
-            @AuthenticationPrincipal userPrincipal: UserPrincipal
+        @AuthenticationPrincipal userPrincipal: UserPrincipal
     ): ResponseEntity<Unit> {
         return ResponseEntity
-                .status(HttpStatus.NO_CONTENT)
-                .body(cartService.cleanMyCart(userPrincipal.id))
+            .status(HttpStatus.NO_CONTENT)
+            .body(cartService.cleanMyCart(userPrincipal.id))
     }
 
     @DeleteMapping("/{cartMenuId}")
     fun deleteCartMenu(
-            @AuthenticationPrincipal userPrincipal: UserPrincipal,
-            @PathVariable cartMenuId: Long
-    ): ResponseEntity<Unit> {
+        @AuthenticationPrincipal userPrincipal: UserPrincipal,
+        @PathVariable cartMenuId: Long
+    ): ResponseEntity<CartResponse> {
         return ResponseEntity
-                .status(HttpStatus.NO_CONTENT)
-                .body(cartService.deleteCartMenu(userPrincipal.id, cartMenuId))
+            .status(HttpStatus.NO_CONTENT)
+            .body(cartService.deleteCartMenu(userPrincipal.id, cartMenuId))
     }
 }

@@ -4,6 +4,8 @@ import com.teamsparta.backoffice.domain.store.dto.request.StoreRequest
 import com.teamsparta.backoffice.domain.store.dto.request.StoreStatusRequest
 import com.teamsparta.backoffice.domain.store.dto.response.StoreListResponse
 import com.teamsparta.backoffice.domain.store.dto.response.StoreResponse
+import com.teamsparta.backoffice.domain.store.dto.response.UserStoreListResponse
+import com.teamsparta.backoffice.domain.store.dto.response.UserStoreResponse
 import com.teamsparta.backoffice.domain.store.service.StoreService
 import com.teamsparta.backoffice.infra.security.jwt.UserPrincipal
 import org.springframework.http.HttpStatus
@@ -17,8 +19,20 @@ class StoreController(
         private val storeService: StoreService
 ) {
 
+    // 가게 목록 조회(사용자)
+    @GetMapping("/")
+    fun getStoreList(): ResponseEntity<List<UserStoreListResponse>> {
+        return ResponseEntity.status(HttpStatus.OK).body(storeService.getStoreList())
+    }
+
+    // 가게 개별 정보 조회(사용자)
+    @GetMapping("/{storeId}/")
+    fun getStoreDetails(@PathVariable storeId: Long): ResponseEntity<List<UserStoreResponse>> {
+        return ResponseEntity.status(HttpStatus.OK).body(storeService.getStroreDetails(storeId))
+    }
+
     // 본인 가게 목록 조회
-    @GetMapping()
+    @GetMapping
     fun getStoreByUserId(
             @AuthenticationPrincipal userPrincipal: UserPrincipal
     ): ResponseEntity<List<StoreListResponse>> {
@@ -28,7 +42,7 @@ class StoreController(
     }
 
     // 가게 생성
-    @PostMapping()
+    @PostMapping
     fun createStore(
             @RequestBody request: StoreRequest,
             @AuthenticationPrincipal userPrincipal: UserPrincipal

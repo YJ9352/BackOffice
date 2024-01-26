@@ -6,6 +6,7 @@ plugins {
 	kotlin("jvm") version "1.9.22"
 	kotlin("plugin.spring") version "1.9.22"
 	kotlin("plugin.jpa") version "1.9.22"
+	kotlin("kapt") version "1.8.22"
 }
 
 group = "com.teamsparta"
@@ -18,6 +19,8 @@ java {
 repositories {
 	mavenCentral()
 }
+
+val queryDslVersion = "5.0.0"
 
 dependencies {
 	implementation("org.springframework.boot:spring-boot-starter-data-jpa")
@@ -43,8 +46,9 @@ dependencies {
 	testImplementation("org.springframework.security:spring-security-test")
 
 	implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.2.0")
-
-
+	//Querydsl
+	implementation("com.querydsl:querydsl-jpa:$queryDslVersion:jakarta")
+	kapt("com.querydsl:querydsl-apt:$queryDslVersion:jakarta")
 }
 
 tasks.withType<KotlinCompile> {
