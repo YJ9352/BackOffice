@@ -19,8 +19,8 @@ import org.springframework.transaction.annotation.Transactional
 
 @Service
 class StoreServiceImpl(
-    private val storeRepository: StoreRepository,
-    private val userRepository: UserRepository,
+        private val storeRepository: StoreRepository,
+        private val userRepository: UserRepository,
 ) : StoreService {
 
     // 본인 가게 목록 조회
@@ -34,16 +34,16 @@ class StoreServiceImpl(
     override fun createStore(userId: Long, request: StoreRequest): StoreResponse {
         val user = userRepository.findByIdOrNull(userId) ?: throw ModelNotFoundException("userId", userId)
         return storeRepository.save(
-            Store(
-                user = user,
-                name = request.name,
-                profileImgUrl = request.profileImgUrl,
-                category = request.category,
-                address = request.address,
-                phone = request.phone,
-                description = request.description,
-                status = StoreStatus.OPEN
-            )
+                Store(
+                        user = user,
+                        name = request.name,
+                        profileImgUrl = request.profileImgUrl,
+                        category = request.category,
+                        address = request.address,
+                        phone = request.phone,
+                        description = request.description,
+                        status = StoreStatus.OPEN
+                )
 
         ).toStoreResponse()
     }
@@ -77,7 +77,7 @@ class StoreServiceImpl(
 
             "CLOSED" ->
                 if (store.user.id == userId) StoreStatus.CLOSED
-                else throw ModelNotFoundException("userId",userId)
+                else throw ModelNotFoundException("userId", userId)
 
             else -> throw StringNotFoundException("status", request.status)
         }

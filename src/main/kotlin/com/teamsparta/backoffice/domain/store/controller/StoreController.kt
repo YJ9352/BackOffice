@@ -14,52 +14,52 @@ import org.springframework.web.bind.annotation.*
 @RestController
 @RequestMapping("/stores")
 class StoreController(
-    private val storeService: StoreService
+        private val storeService: StoreService
 ) {
 
     // 본인 가게 목록 조회
     @GetMapping()
     fun getStoreByUserId(
-        @AuthenticationPrincipal userPrincipal: UserPrincipal
+            @AuthenticationPrincipal userPrincipal: UserPrincipal
     ): ResponseEntity<List<StoreListResponse>> {
         return ResponseEntity
-            .status(HttpStatus.OK)
-            .body(storeService.getStoreByUserId(userPrincipal.id))
+                .status(HttpStatus.OK)
+                .body(storeService.getStoreByUserId(userPrincipal.id))
     }
 
     // 가게 생성
     @PostMapping()
     fun createStore(
-        @RequestBody request: StoreRequest,
-        @AuthenticationPrincipal userPrincipal: UserPrincipal
+            @RequestBody request: StoreRequest,
+            @AuthenticationPrincipal userPrincipal: UserPrincipal
     ): ResponseEntity<StoreResponse> {
         return ResponseEntity
-            .status(HttpStatus.CREATED)
-            .body(storeService.createStore(userPrincipal.id, request))
+                .status(HttpStatus.CREATED)
+                .body(storeService.createStore(userPrincipal.id, request))
     }
 
     // 가게 정보 수정
     @PutMapping("/{storeId}")
     fun modifyStore(
-        @PathVariable storeId: Long,
-        @AuthenticationPrincipal userPrincipal: UserPrincipal,
-        @RequestBody request: StoreRequest
+            @PathVariable storeId: Long,
+            @AuthenticationPrincipal userPrincipal: UserPrincipal,
+            @RequestBody request: StoreRequest
     ): ResponseEntity<StoreResponse> {
         return ResponseEntity
-            .status(HttpStatus.OK)
-            .body(storeService.modifyStore(userPrincipal.id, storeId, request))
+                .status(HttpStatus.OK)
+                .body(storeService.modifyStore(userPrincipal.id, storeId, request))
     }
 
     // 가게 영업상태 변경
     @PutMapping("/{storeId}/status")
     fun storeStatusChange(
-        @PathVariable storeId: Long,
-        @AuthenticationPrincipal userPrincipal: UserPrincipal,
-        @RequestBody request: StoreStatusRequest
+            @PathVariable storeId: Long,
+            @AuthenticationPrincipal userPrincipal: UserPrincipal,
+            @RequestBody request: StoreStatusRequest
     ): ResponseEntity<StoreResponse> {
         return ResponseEntity
-            .status(HttpStatus.OK)
-            .body(storeService.storeStatusChange(storeId, userPrincipal.id, request))
+                .status(HttpStatus.OK)
+                .body(storeService.storeStatusChange(storeId, userPrincipal.id, request))
     }
 
 }

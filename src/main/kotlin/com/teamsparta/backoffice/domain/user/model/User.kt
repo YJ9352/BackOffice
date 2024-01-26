@@ -1,6 +1,5 @@
 package com.teamsparta.backoffice.domain.user.model
 
-import com.teamsparta.backoffice.domain.user.dto.auth.AuthResponse
 import com.teamsparta.backoffice.domain.user.dto.users.GetUserResponse
 import com.teamsparta.backoffice.domain.user.dto.users.ModifyUserRequest
 import com.teamsparta.backoffice.domain.user.dto.users.UserResponse
@@ -36,8 +35,8 @@ class User(
         nickname = request.nickname
         password = request.password
         phoneNumber = request.phoneNumber
-
     }
+
 
 }
 

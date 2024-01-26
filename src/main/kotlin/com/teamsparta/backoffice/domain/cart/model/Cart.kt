@@ -6,11 +6,11 @@ import jakarta.persistence.*
 @Entity
 data class Cart(
 
-    @OneToOne
-    @JoinColumn(name = "user_id")
-    val user: User,
-    // Todo @ManyToOne
-    val storeId: Long
+        @OneToOne
+        @JoinColumn(name = "user_id")
+        val user: User,
+        // Todo @ManyToOne
+        val storeId: Long
 
 ) {
     @Id

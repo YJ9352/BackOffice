@@ -44,20 +44,16 @@ class JwtPlugin(
                 .signWith(key)
                 .compact()
     }
-    private fun generateAuthToken(oAuth2User: OAuth2User, expirationPeriod: Duration) : String {
-        val now = Instant.now()
+
+    fun generateAuthToken(oAuth2User: OAuth2User): String {
+        val now = Date().time
         val key = Keys.hmacShaKeyFor(secret.toByteArray(StandardCharsets.UTF_8))
-        return Jwts.builder()
+        val accessToken = Jwts.builder()
                 .subject(oAuth2User.attributes["email"] as String)
-                .issuer(issuer)
-                .issuedAt(Date.from(now))
-                .expiration(Date.from(now.plus(expirationPeriod)))
+                .expiration(Date(now + accessTokenExpirationHour))
                 .signWith(key)
                 .compact()
-
+        return accessToken
     }
-    fun generateAuthAccessToken(oAuth2User: OAuth2User):String{
-        return generateAuthToken(oAuth2User, Duration.ofHours(accessTokenExpirationHour))
-    }
-
 }
+
