@@ -44,7 +44,7 @@ class CartServiceImpl(
         val menu = menuRepository.findByIdOrNull(addCartMenuRequest.menuId)
             ?: throw ModelNotFoundException("menu", addCartMenuRequest.menuId)
 
-        if (menu.storeId != cart.storeId) {
+        if (menu.store.id != cart.storeId) {
             throw IllegalStateException("동일한 가게의 메뉴만 장바구니에 넣을 수 있음")
         }
 
@@ -90,7 +90,7 @@ class CartServiceImpl(
     fun CartMenu.toResponse(): CartMenuResponse {
         return CartMenuResponse(
             cartMenuId = id!!,
-            menuId = menu.id,
+            menuId = menu.id!!,
             name = menu.name,
             price = menu.price * quantity,
             quantity = quantity
