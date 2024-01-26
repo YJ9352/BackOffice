@@ -86,7 +86,7 @@ class OrderServiceImpl(
         return getOrderResponse(order)
     }
 
-    fun getOrderResponse(order: Order):OrderResponse{
+    fun getOrderResponse(order: Order): OrderResponse {
         return OrderResponse(
             orderId = order.id!!,
             userId = order.user.id!!,
@@ -94,7 +94,8 @@ class OrderServiceImpl(
             phone = order.phone,
             address = order.address,
             paymentTime = order.paymentTime,
-            menuList = orderMenuRepository.findByOrderId(order.id!!).map { it.toResponse() }
+            menuList = orderMenuRepository.findByOrderId(order.id!!).map { it.toResponse() },
+            status = order.status.name
         )
     }
 

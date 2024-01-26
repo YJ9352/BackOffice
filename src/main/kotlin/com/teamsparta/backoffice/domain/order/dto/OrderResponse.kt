@@ -9,5 +9,6 @@ data class OrderResponse(
     val totalPrice: Int,
     val phone: String,
     val address: String,
-    val paymentTime: LocalDateTime
+    val paymentTime: LocalDateTime,
+    val status:String
 )
