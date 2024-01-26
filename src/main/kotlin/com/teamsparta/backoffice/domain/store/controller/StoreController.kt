@@ -61,5 +61,4 @@ class StoreController(
             .status(HttpStatus.OK)
             .body(storeService.storeStatusChange(storeId, userPrincipal.id, request))
     }
-
 }

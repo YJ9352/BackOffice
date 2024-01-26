@@ -18,16 +18,17 @@ import org.springframework.transaction.annotation.Transactional
 
 @Service
 class StoreServiceImpl(
-    private val storeRepository: StoreRepository
+    private val storeRepository: StoreRepository,
 ) : StoreService {
 
     // 본인 가게 목록 조회
     override fun getStoreByUserId(userId: Long): List<StoreListResponse> {
-        storeRepository.findByIdOrNull(userId) ?: throw ModelNotFoundException("userId", userId)
-        return storeRepository.findByUserId(userId).map { it.toStoreListResponse() }
+        val stores = storeRepository.findByUserId(userId) ?: throw ModelNotFoundException("userId", userId)
+        return stores.map { it.toStoreListResponse() }
     }
 
     // 가게 생성
+
     @Transactional
     override fun createStore(userId: Long, request: StoreRequest): StoreResponse {
         storeRepository.findByIdOrNull(userId) ?: throw ModelNotFoundException("userId", userId)

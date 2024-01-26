@@ -6,9 +6,12 @@ import com.teamsparta.backoffice.domain.review.dto.reviewDto.ReviewResponse
 import com.teamsparta.backoffice.domain.review.dto.reviewDto.UpdateReviewRequest
 import com.teamsparta.backoffice.domain.review.model.Review
 import com.teamsparta.backoffice.domain.review.model.toResponse
+import com.teamsparta.backoffice.domain.review.repository.ReplyByReviewRepository
 import com.teamsparta.backoffice.domain.review.repository.ReviewRepository
+import com.teamsparta.backoffice.domain.store.repository.StoreRepository
 import com.teamsparta.backoffice.domain.user.repository.UserRepository
 import jakarta.transaction.Transactional
+import org.springframework.data.jpa.domain.AbstractPersistable_.id
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.security.access.AccessDeniedException
 import org.springframework.security.access.prepost.PreAuthorize
@@ -20,9 +23,24 @@ import java.time.LocalDateTime
 class ReviewServiceImpl(
     private val reviewRepository: ReviewRepository,
     private val userRepository: UserRepository,
+    private val storeRepository: StoreRepository
 ) : ReviewService {
     override fun getReviewByStore(storeId: Long): List<ReviewResponse> {
-        TODO("return ReviewRepository.findAll().map toResponse")
+        val store = storeRepository.findByIdOrNull(storeId)
+            ?: throw ModelNotFoundException("store", storeId)
+
+        val review = reviewRepository.findAllByStore(store)
+
+        return review.map { review ->
+            ReviewResponse(
+                id = review.id!!,
+                content = review.content,
+                rating = review.rating,
+                nickname = review.user.nickname,
+                reply = review.replies?.let { it.toResponse() }
+
+            )
+        }
     }
 
     @Transactional
@@ -32,15 +50,15 @@ class ReviewServiceImpl(
         request: AddReviewRequest,
     ): ReviewResponse {
 
-//        TODO("storeRepository findbyornull로 조회 후 throw modelnotfound")
-        val store = storeRepository
+        val store = storeRepository.findByIdOrNull(storeId)?: throw ModelNotFoundException("store", storeId)
         val user = userRepository.findByIdOrNull(userId) ?: throw ModelNotFoundException("user", userId)
 
         val review = Review(
             content = request.content,
             rating = request.rating,
             store = store,
-            user = user
+            user = user,
+            replies = null
         )
         return reviewRepository.save(review).toResponse()
     }
@@ -52,7 +70,6 @@ class ReviewServiceImpl(
         reviewId: Long,
         request: UpdateReviewRequest,
     ): ReviewResponse {
-//        TODO("storeid 조회 후 modelNotFound")
         val review = reviewRepository.findByIdOrNull(reviewId)
             ?: throw ModelNotFoundException("review", reviewId)
         val user = userRepository.findByIdOrNull(userId)
@@ -61,7 +78,6 @@ class ReviewServiceImpl(
         if (review.user.id != user.id) throw AccessDeniedException("글에 대한 권한이 없습니다.")
 
         review.content = request.content
-        review.updatedAt = LocalDateTime.now()
 
         return reviewRepository.save(review).toResponse()
     }
