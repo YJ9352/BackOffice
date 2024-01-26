@@ -27,11 +27,20 @@ class OrderController(
     }
 
     @GetMapping
-    @Operation(summary = "Sets a price for a chosen car", description = "Returns 202 if successful")
+    @Operation(
+        description =
+            "userId = Long, status = null, storeId = null\n" +
+            "유저가 본인의 주문을 확인한다.\n" +
+            "\n" +
+            "userId = Long, status = null, storeId = Long\n" +
+            "가게 주인이 storeId인 가게의 모든 상태의 주문을 확인한다.\n" +
+            "\n" +
+            "userId = Long, status = String, storeId = Long\n" +
+            "가게 주인이 storeId인 가게의 어떤 상태의 주문을 확인한다.")
     fun getOrderList(
         @AuthenticationPrincipal userPrincipal: UserPrincipal,
-        @RequestParam(required = false) status: String,
-        @RequestParam(required = false) storeId: Long
+        @RequestParam(required = false) status: String?,
+        @RequestParam(required = false) storeId: Long?
     ): ResponseEntity<List<OrderResponse>> {
 
         return ResponseEntity
