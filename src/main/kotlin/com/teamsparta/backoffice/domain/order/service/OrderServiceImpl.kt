@@ -78,7 +78,7 @@ class OrderServiceImpl(
         val user = userRepository.findByIdOrNull(userId) ?: throw ModelNotFoundException("user", userId)
         val order = orderRepository.findByIdOrNull(orderId) ?: throw ModelNotFoundException("order", orderId)
 
-        if (order.user.id != user.id && order.store.userId != user.id) {
+        if (order.user.id != user.id && order.store.user.id != user.id) {
             throw AccessDeniedException("주문 수정 권한이 없음")
         }
 
@@ -100,9 +100,9 @@ class OrderServiceImpl(
 
     fun OrderMenu.toResponse(): OrderMenuResponse {
         return OrderMenuResponse(
-            menuId = menu.id,
+            menuId = menu.id!!,
             name = menu.name,
-            price = menu.price * quantity,
+            price = menu.price,
             quantity = quantity
         )
     }

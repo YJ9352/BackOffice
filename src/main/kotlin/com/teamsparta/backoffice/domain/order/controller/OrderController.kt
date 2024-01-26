@@ -5,6 +5,7 @@ import com.teamsparta.backoffice.domain.order.dto.CreateOrderRequest
 import com.teamsparta.backoffice.domain.order.dto.OrderResponse
 import com.teamsparta.backoffice.domain.order.service.OrderService
 import com.teamsparta.backoffice.infra.security.jwt.UserPrincipal
+import io.swagger.v3.oas.annotations.Operation
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.security.core.annotation.AuthenticationPrincipal
@@ -26,6 +27,7 @@ class OrderController(
     }
 
     @GetMapping
+    @Operation(summary = "Sets a price for a chosen car", description = "Returns 202 if successful")
     fun getOrderList(
         @AuthenticationPrincipal userPrincipal: UserPrincipal,
         @RequestParam(required = false) status: String,
