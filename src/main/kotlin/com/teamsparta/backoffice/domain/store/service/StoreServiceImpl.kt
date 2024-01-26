@@ -6,10 +6,8 @@ import com.teamsparta.backoffice.domain.store.dto.request.StoreRequest
 import com.teamsparta.backoffice.domain.store.dto.request.StoreStatusRequest
 import com.teamsparta.backoffice.domain.store.dto.response.StoreListResponse
 import com.teamsparta.backoffice.domain.store.dto.response.StoreResponse
-import com.teamsparta.backoffice.domain.store.model.Store
-import com.teamsparta.backoffice.domain.store.model.StoreStatus
-import com.teamsparta.backoffice.domain.store.model.toStoreListResponse
-import com.teamsparta.backoffice.domain.store.model.toStoreResponse
+import com.teamsparta.backoffice.domain.store.dto.response.UserStoreListResponse
+import com.teamsparta.backoffice.domain.store.model.*
 import com.teamsparta.backoffice.domain.store.repository.StoreRepository
 import com.teamsparta.backoffice.domain.user.repository.UserRepository
 import org.springframework.data.repository.findByIdOrNull
@@ -23,10 +21,20 @@ class StoreServiceImpl(
     private val userRepository: UserRepository,
 ) : StoreService {
 
+    // 가게 목록 조회(사용자)
+    override fun getStoreList(): List<UserStoreListResponse> {
+        return storeRepository.findAll().map { it.UserStoreListResponse() }
+    }
+
+    // 가게 개별 정보 조회(사용자)
+    override fun getStroreDetails(storeId: Long): List<StoreResponse> {
+        return storeRepository.findAllById(storeId).map { it.toStoreResponse() }
+    }
+
     // 본인 가게 목록 조회
     override fun getStoreByUserId(userId: Long): List<StoreListResponse> {
-        storeRepository.findByIdOrNull(userId) ?: throw ModelNotFoundException("userId", userId)
-        return storeRepository.findByUserId(userId).map { it.toStoreListResponse() }
+        val store = storeRepository.findByUserId(userId) ?: throw ModelNotFoundException("userId", userId)
+        return store.map { it.toStoreListResponse() }
     }
 
     // 가게 생성
@@ -77,7 +85,7 @@ class StoreServiceImpl(
 
             "CLOSED" ->
                 if (store.user.id == userId) StoreStatus.CLOSED
-                else throw ModelNotFoundException("userId",userId)
+                else throw ModelNotFoundException("userId", userId)
 
             else -> throw StringNotFoundException("status", request.status)
         }
