@@ -1,7 +1,9 @@
 package com.teamsparta.backoffice.domain.order.model
 
+import com.teamsparta.backoffice.domain.store.model.Store
 import com.teamsparta.backoffice.domain.user.model.User
 import jakarta.persistence.*
+import org.hibernate.annotations.CreationTimestamp
 import java.time.LocalDateTime
 
 @Entity
@@ -12,22 +14,35 @@ class Order(
     var status: OrderStatus = OrderStatus.CONFIRM_WAIT,
 
     @Column(name = "order_total_pay")
-    var totalPay : Int,
+    var totalPay: Int,
 
-    @Column(name = "order_payment_time")
-    var paymentTime : LocalDateTime,
+    @Column(name = "order_phone")
+    val phone: String,
+
+    @Column(name = "order_address")
+    val address: String,
+
+    @CreationTimestamp
+    @Column(name = "order_payment_time", nullable = true, updatable = false)
+    var paymentTime: LocalDateTime,
 
     @ManyToOne
     @JoinColumn(name = "user_id")
-    var user : User,
+    var user: User,
 
-    // TODO store
-    // @ManyToOne
-    var storeId : Long
+    @ManyToOne
+    @JoinColumn(name = "store_id")
+    var store: Store,
+
+    @OneToMany
+    @JoinColumn(name = "order_menu_id")
+    var orderMenuList: List<OrderMenu>?
 
 ) {
     @Id
     @Column(name = "order_id", nullable = false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     var id: Long? = null
+
+
 }

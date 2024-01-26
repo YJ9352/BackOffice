@@ -37,14 +37,16 @@ class OrderController(
             .body(orderService.getOrderList(userPrincipal.id, status, storeId))
     }
 
-    @PatchMapping
-    fun changeOrderStatus(@RequestBody changeOrderStatusRequest: ChangeOrderStatusRequest)
-            : ResponseEntity<OrderResponse> {
+    @PatchMapping("/{orderId}")
+    fun changeOrderStatus(
+        @AuthenticationPrincipal userPrincipal: UserPrincipal,
+        @RequestBody changeOrderStatusRequest: ChangeOrderStatusRequest,
+        @PathVariable orderId: Long
+    ): ResponseEntity<OrderResponse> {
 
         return ResponseEntity
             .status(HttpStatus.OK)
-            .body(orderService.changeOrderStatus(changeOrderStatusRequest))
-
+            .body(orderService.changeOrderStatus(userPrincipal.id, orderId, changeOrderStatusRequest))
     }
 
 
