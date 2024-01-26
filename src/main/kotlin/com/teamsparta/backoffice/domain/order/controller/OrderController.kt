@@ -28,8 +28,8 @@ class OrderController(
     @GetMapping
     fun getOrderList(
         @AuthenticationPrincipal userPrincipal: UserPrincipal,
-        @RequestParam status: String,
-        @RequestParam storeId: Long
+        @RequestParam(required = false) status: String,
+        @RequestParam(required = false) storeId: Long
     ): ResponseEntity<List<OrderResponse>> {
 
         return ResponseEntity

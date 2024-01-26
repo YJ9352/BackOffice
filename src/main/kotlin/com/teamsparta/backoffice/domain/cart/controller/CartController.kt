@@ -47,7 +47,7 @@ class CartController(
     fun deleteCartMenu(
         @AuthenticationPrincipal userPrincipal: UserPrincipal,
         @PathVariable cartMenuId: Long
-    ): ResponseEntity<Unit> {
+    ): ResponseEntity<CartResponse> {
         return ResponseEntity
             .status(HttpStatus.NO_CONTENT)
             .body(cartService.deleteCartMenu(userPrincipal.id, cartMenuId))

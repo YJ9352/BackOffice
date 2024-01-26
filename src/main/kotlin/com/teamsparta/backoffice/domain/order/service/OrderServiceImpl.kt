@@ -36,8 +36,9 @@ class OrderServiceImpl(
 
         return orderRepository
             .selectOrderList(userId, status?.let { OrderStatus.valueOf(it) }, storeId)
-            .map { it.toResponse() }
+            .map { getOrderResponse(it) }
     }
+
 
     @Transactional
     override fun createOrder(userId: Long, createOrderRequest: CreateOrderRequest): OrderResponse {
@@ -46,6 +47,7 @@ class OrderServiceImpl(
         val account = user.account
         val cartMenuList = cartMenuRepository.findByCartId(cart.id!!)
         val totalPrice = cartMenuList.fold(0) { acc, cartMenu -> acc + (cartMenu.menu.price * cartMenu.quantity) }
+
         if (account.money < totalPrice) {
             throw IllegalStateException("잔고가 부족합니다.")
         }
@@ -59,13 +61,13 @@ class OrderServiceImpl(
                 address = createOrderRequest.address,
                 user = user,
                 store = cart.store,
-                orderMenuList = null,
                 paymentTime = LocalDateTime.now()
             )
         )
-        cartMenuList.map { it.toOrderMenu(order) }.forEach { orderMenuRepository.save(it) }
+
+        cartMenuList.map { orderMenuRepository.save(it.toOrderMenu(order)) }
         cartMenuRepository.deleteByCartId(cart.id!!)
-        return orderRepository.findById(order.id!!).get().toResponse()
+        return getOrderResponse(order)
     }
 
     override fun changeOrderStatus(
@@ -81,18 +83,18 @@ class OrderServiceImpl(
         }
 
         order.status = OrderStatus.valueOf(changeOrderStatusRequest.status)
-        return order.toResponse()
+        return getOrderResponse(order)
     }
 
-    fun Order.toResponse(): OrderResponse {
+    fun getOrderResponse(order: Order):OrderResponse{
         return OrderResponse(
-            orderId = id!!,
-            userId = user.id!!,
-            totalPrice = totalPay,
-            phone = phone,
-            address = address,
-            paymentTime = paymentTime,
-            menuList = orderMenuList!!.map { it.toResponse() }
+            orderId = order.id!!,
+            userId = order.user.id!!,
+            totalPrice = order.totalPay,
+            phone = order.phone,
+            address = order.address,
+            paymentTime = order.paymentTime,
+            menuList = orderMenuRepository.findByOrderId(order.id!!).map { it.toResponse() }
         )
     }
 

@@ -78,7 +78,7 @@ class CartServiceImpl(
     }
 
     @Transactional
-    override fun deleteCartMenu(userId: Long, cartMenuId: Long) {
+    override fun deleteCartMenu(userId: Long, cartMenuId: Long): CartResponse {
 
         val cartMenu = cartMenuRepository.findByIdOrNull(cartMenuId)
             ?: throw ModelNotFoundException("CartMenu", cartMenuId)
@@ -86,8 +86,8 @@ class CartServiceImpl(
         if (cartMenu.cart.user.id != userId) {
             throw AccessDeniedException("다른 사람의 장바구니에 접근 불가")
         }
-
-        return cartMenuRepository.deleteById(cartMenuId)
+        cartMenuRepository.deleteById(cartMenuId)
+        return getCartByUserId(userId)
     }
 
     fun CartMenu.toResponse(): CartMenuResponse {

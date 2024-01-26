@@ -33,16 +33,9 @@ class Order(
     @ManyToOne
     @JoinColumn(name = "store_id")
     var store: Store,
-
-    @OneToMany
-    @JoinColumn(name = "order_menu_id")
-    var orderMenuList: List<OrderMenu>?
-
 ) {
     @Id
     @Column(name = "order_id", nullable = false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     var id: Long? = null
-
-
 }
