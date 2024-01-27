@@ -72,10 +72,6 @@ class ReviewServiceImpl(
     ): ReviewResponse {
         val review = reviewRepository.findByIdOrNull(reviewId)
             ?: throw ModelNotFoundException("review", reviewId)
-        val user = userRepository.findByIdOrNull(userId)
-            ?: throw ModelNotFoundException("user", userId)
-
-        if (review.user.id != user.id) throw AccessDeniedException("글에 대한 권한이 없습니다.")
 
         review.content = request.content
 
@@ -90,10 +86,6 @@ class ReviewServiceImpl(
     ) {
         val review = reviewRepository.findByStoreIdAndId(storeId, reviewId)
             ?: throw ModelNotFoundException("review", reviewId)
-        val user = userRepository.findByIdOrNull(userId)
-            ?: throw ModelNotFoundException("user", userId)
-
-        if (review.user.id != user.id) throw AccessDeniedException("권한이 없습니다.")
 
         reviewRepository.delete(review)
     }

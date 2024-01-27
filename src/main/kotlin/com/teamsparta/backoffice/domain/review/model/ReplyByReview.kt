@@ -8,7 +8,7 @@ import jakarta.persistence.*
 @Table(name = "review_reply")
 class ReplyByReview(
     @OneToOne
-    @JoinColumn(name = "review_id", unique = true)
+    @JoinColumn(name = "review_id")
     var review: Review,
 
     @Column(name = "review_reply_content")

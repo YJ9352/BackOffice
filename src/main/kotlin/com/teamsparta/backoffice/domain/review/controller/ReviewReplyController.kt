@@ -6,6 +6,7 @@ import com.teamsparta.backoffice.domain.review.dto.replyByReviewDto.UpdateReplyB
 import com.teamsparta.backoffice.domain.review.dto.reviewDto.ReviewResponse
 import com.teamsparta.backoffice.domain.review.service.ReplyByReviewService
 import com.teamsparta.backoffice.infra.security.jwt.UserPrincipal
+import jakarta.transaction.Transactional
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.security.core.annotation.AuthenticationPrincipal
@@ -24,16 +25,17 @@ class ReviewReplyController(
         @PathVariable reviewId: Long,
         @RequestBody addReviewReplyRequest: AddReplyByReviewRequest,
         @AuthenticationPrincipal userPrincipal: UserPrincipal,
-    ): ResponseEntity<ReviewResponse> {
+    ): ResponseEntity<ReplyByReviewResponse> {
         return ResponseEntity
             .status(HttpStatus.CREATED)
             .body(replyByReviewService.addReplyByReview(storeId, reviewId, userPrincipal.id, addReviewReplyRequest))
     }
 
-    @PutMapping("/{reviewId}/")
+    @PutMapping("/{reviewId}/replies/{replyId}")
     fun updateReplyByReview(
         @PathVariable storeId: Long,
         @PathVariable reviewId: Long,
+        @PathVariable replyId: Long,
         @RequestBody updateReplyByReviewRequest: UpdateReplyByReviewRequest,
         @AuthenticationPrincipal userPrincipal: UserPrincipal,
     ): ResponseEntity<ReplyByReviewResponse> {
@@ -43,9 +45,9 @@ class ReviewReplyController(
                 replyByReviewService.updateReplyByReview(
                     storeId,
                     reviewId,
+                    replyId,
                     userPrincipal.id,
-                    updateReplyByReviewRequest
-                )
+                    updateReplyByReviewRequest)
             )
     }
     @DeleteMapping("/{reviewId}/replies/{replyId}")

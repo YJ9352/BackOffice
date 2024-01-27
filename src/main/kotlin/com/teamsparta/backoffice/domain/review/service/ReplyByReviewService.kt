@@ -12,11 +12,12 @@ interface ReplyByReviewService {
         reviewId: Long,
         userId: Long,
         request: AddReplyByReviewRequest
-    ): ReviewResponse
+    ): ReplyByReviewResponse
 
     fun updateReplyByReview(
         storeId: Long,
         reviewId: Long,
+        userId: Long,
         replyId: Long,
         request: UpdateReplyByReviewRequest
     ): ReplyByReviewResponse

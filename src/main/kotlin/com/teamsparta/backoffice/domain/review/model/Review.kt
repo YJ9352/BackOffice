@@ -23,10 +23,8 @@ class Review(
     @JoinColumn(name = "store_id")
     val store: Store,
 
-    @OneToOne(mappedBy = "review", fetch = FetchType.EAGER, cascade = [CascadeType.ALL])
+    @OneToOne(mappedBy = "review", fetch = FetchType.EAGER, orphanRemoval = true)
     var replies: ReplyByReview?
-
-
 ) {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -39,6 +37,6 @@ fun Review.toResponse(): ReviewResponse {
         content = content,
         nickname = user.nickname,
         rating = rating,
-        reply = replies?.let { it.toResponse() }
+        reply = replies?.toResponse()
     )
 }
