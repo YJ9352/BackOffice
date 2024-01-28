@@ -1,5 +1,6 @@
 package com.teamsparta.backoffice.domain.review.service
 
+import com.teamsparta.backoffice.domain.exception.CustomException
 import com.teamsparta.backoffice.domain.exception.ModelNotFoundException
 import com.teamsparta.backoffice.domain.review.dto.replyByReviewDto.AddReplyByReviewRequest
 import com.teamsparta.backoffice.domain.review.dto.replyByReviewDto.ReplyByReviewResponse
@@ -18,7 +19,7 @@ class ReplyByReviewServiceImpl(
     private val reviewRepository: ReviewRepository,
     private val userRepository: UserRepository,
     private val replyByReviewRepository: ReplyByReviewRepository
-):ReplyByReviewService {
+) : ReplyByReviewService {
 
     @Transactional
     override fun addReplyByReview(
@@ -31,6 +32,9 @@ class ReplyByReviewServiceImpl(
             ?: throw ModelNotFoundException("review", reviewId)
         val user = userRepository.findByIdOrNull(userId)
             ?: throw ModelNotFoundException("user", userId)
+        if (review.replies != null) {
+            throw CustomException("이미 답글이 달린 리뷰 입니다.")
+        }
 
         val reply = ReplyByReview(
             content = request.content,
