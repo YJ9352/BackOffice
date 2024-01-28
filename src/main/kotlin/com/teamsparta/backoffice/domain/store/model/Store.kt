@@ -4,6 +4,9 @@ import com.teamsparta.backoffice.domain.review.model.Review
 import com.teamsparta.backoffice.domain.review.model.toResponse
 import com.teamsparta.backoffice.domain.store.dto.response.StoreListResponse
 import com.teamsparta.backoffice.domain.store.dto.response.StoreResponse
+import com.teamsparta.backoffice.domain.store.dto.response.UserStoreListResponse
+import com.teamsparta.backoffice.domain.store.dto.response.UserStoreResponse
+import com.teamsparta.backoffice.domain.user.model.User
 import jakarta.persistence.*
 
 @Entity
@@ -32,9 +35,9 @@ class Store(
     @Column(name = "status")
     var status: StoreStatus,
 
-//    @ManyToOne
+    @ManyToOne
     @JoinColumn(name = "user_id")
-    val userId: Long,
+    val user: User,
 
     @OneToMany(mappedBy = "store", cascade = [CascadeType.ALL])
     var reviews: MutableList<Review> = mutableListOf()
@@ -44,13 +47,13 @@ class Store(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "store_id")
-    val id: Long = 0L
+    val id: Long? = null
 
 }
 
 fun Store.toStoreResponse(): StoreResponse {
     return StoreResponse(
-        storeId = id,
+        storeId = id!!,
         name = name,
         profileImgUrl = profileImgUrl,
         category = category,
@@ -64,11 +67,34 @@ fun Store.toStoreResponse(): StoreResponse {
 
 fun Store.toStoreListResponse(): StoreListResponse {
     return StoreListResponse(
-        storeId = id,
+        storeId = id!!,
         name = name,
         category = category,
         address = address,
         phone = phone,
         description = description
+    )
+}
+
+fun Store.UserStoreListResponse(): UserStoreListResponse {
+    return UserStoreListResponse(
+        storeId = id!!,
+        name = name,
+        profileImgUrl = profileImgUrl,
+        status = status.name
+    )
+}
+
+fun Store.UserStoreResponse(): UserStoreResponse {
+    return UserStoreResponse(
+        storeId = id!!,
+        name = name,
+        profileImgUrl = profileImgUrl,
+        category = category,
+        address = address,
+        phone = phone,
+        description = description,
+        status = status.name
+
     )
 }
