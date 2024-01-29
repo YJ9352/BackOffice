@@ -1,4 +1,15 @@
 spring:
+  security:
+    oauth2:
+      client:
+        registration:
+          google:
+            client-id: 70127047663-ekkl1uu4h3pvcrsddbrtg508idc80oh9.apps.googleusercontent.com
+            client-secret: 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
+            redirect-uri: http://localhost:8080/login/oauth2/code/google
+            scope:
+              - profile
+              - email
   jpa:
     open-in-view: true
     hibernate:
@@ -23,4 +34,3 @@ auth:
     issuer: team.sparta.com
     secret: PO4c8z41Hia5gJG3oeuFJMRYBB4Ws4aZ
     accessTokenExpirationHour: 168
-

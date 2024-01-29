@@ -10,6 +10,7 @@ import com.teamsparta.backoffice.domain.store.service.StoreService
 import com.teamsparta.backoffice.infra.security.jwt.UserPrincipal
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
+import org.springframework.security.access.prepost.PreAuthorize
 import org.springframework.security.core.annotation.AuthenticationPrincipal
 import org.springframework.web.bind.annotation.*
 
@@ -33,6 +34,7 @@ class StoreController(
 
     // 본인 가게 목록 조회
     @GetMapping
+    @PreAuthorize("hasAnyRole('CEO','ADMIN')")
     fun getStoreByUserId(
             @AuthenticationPrincipal userPrincipal: UserPrincipal
     ): ResponseEntity<List<StoreListResponse>> {
@@ -43,6 +45,7 @@ class StoreController(
 
     // 가게 생성
     @PostMapping
+    @PreAuthorize("hasAnyRole('CEO','ADMIN')")
     fun createStore(
             @RequestBody request: StoreRequest,
             @AuthenticationPrincipal userPrincipal: UserPrincipal
@@ -54,6 +57,7 @@ class StoreController(
 
     // 가게 정보 수정
     @PutMapping("/{storeId}")
+    @PreAuthorize("hasAnyRole('CEO','ADMIN')")
     fun modifyStore(
             @PathVariable storeId: Long,
             @AuthenticationPrincipal userPrincipal: UserPrincipal,
@@ -66,6 +70,7 @@ class StoreController(
 
     // 가게 영업상태 변경
     @PutMapping("/{storeId}/status")
+    @PreAuthorize("hasAnyRole('CEO','ADMIN')")
     fun storeStatusChange(
             @PathVariable storeId: Long,
             @AuthenticationPrincipal userPrincipal: UserPrincipal,
