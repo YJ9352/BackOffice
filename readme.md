@@ -58,6 +58,10 @@
 
 - SupaBase(postgreSQL): [https://supabase.com/dashboard/projects]
 
+### **collaboration**
+
+- Git, GitHub Issue, Slack
+
 
 ## 🎈 주요기능
 
