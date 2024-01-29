@@ -3,6 +3,7 @@ package com.teamsparta.backoffice.domain.order.service
 import com.teamsparta.backoffice.domain.cart.model.CartMenu
 import com.teamsparta.backoffice.domain.cart.repository.CartMenuRepository
 import com.teamsparta.backoffice.domain.cart.repository.CartRepository
+import com.teamsparta.backoffice.domain.exception.CustomException
 import com.teamsparta.backoffice.domain.exception.ModelNotFoundException
 import com.teamsparta.backoffice.domain.order.dto.ChangeOrderStatusRequest
 import com.teamsparta.backoffice.domain.order.dto.CreateOrderRequest
@@ -32,7 +33,6 @@ class OrderServiceImpl(
 ) : OrderService {
 
     override fun getOrderList(userId: Long, status: String?, storeId: Long?): List<OrderResponse> {
-        // Todo Exception 처리
 
         return orderRepository
             .selectOrderList(userId, status?.let { OrderStatus.valueOf(it) }, storeId)
@@ -45,11 +45,12 @@ class OrderServiceImpl(
         val user = userRepository.findByIdOrNull(userId) ?: throw ModelNotFoundException("user", userId)
         val cart = cartRepository.findByUserId(userId) ?: throw ModelNotFoundException("cart", userId)
         val account = user.account
-        val cartMenuList = cartMenuRepository.findByCartId(cart.id!!)
+        val cartMenuList =
+            cartMenuRepository.findByCartId(cart.id!!) ?: throw ModelNotFoundException("cartMenu", cart.id)
         val totalPrice = cartMenuList.fold(0) { acc, cartMenu -> acc + (cartMenu.menu.price * cartMenu.quantity) }
 
         if (account.money < totalPrice) {
-            throw IllegalStateException("잔고가 부족합니다.")
+            throw CustomException("잔고가 부족합니다.")
         }
         account.money = account.money - totalPrice
         accountRepository.save(account)
@@ -70,6 +71,7 @@ class OrderServiceImpl(
         return getOrderResponse(order)
     }
 
+    @Transactional
     override fun changeOrderStatus(
         userId: Long,
         orderId: Long,
@@ -77,12 +79,19 @@ class OrderServiceImpl(
     ): OrderResponse {
         val user = userRepository.findByIdOrNull(userId) ?: throw ModelNotFoundException("user", userId)
         val order = orderRepository.findByIdOrNull(orderId) ?: throw ModelNotFoundException("order", orderId)
+        val statusEnum = OrderStatus.valueOf(changeOrderStatusRequest.status)
 
         if (order.user.id != user.id && order.store.user.id != user.id) {
             throw AccessDeniedException("주문 수정 권한이 없음")
         }
 
-        order.status = OrderStatus.valueOf(changeOrderStatusRequest.status)
+        if(arrayOf(OrderStatus.STORE_CANCEL,OrderStatus.CUSTOMER_CANCEL).contains(statusEnum)){
+            val account = user.account
+            account.money = account.money + order.totalPay
+            accountRepository.save(account)
+        }
+
+        order.status = statusEnum
         return getOrderResponse(order)
     }
 
