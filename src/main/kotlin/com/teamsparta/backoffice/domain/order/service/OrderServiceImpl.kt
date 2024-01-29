@@ -92,6 +92,7 @@ class OrderServiceImpl(
         }
 
         order.status = statusEnum
+        orderRepository.save(order)
         return getOrderResponse(order)
     }
 
