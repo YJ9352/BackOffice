@@ -89,6 +89,31 @@
 - 가게주인 : 주문 상태 변경(주문 취소,주문 확정, 조리 완료, 배달 완료)
 - 주문 조회 시 QueryDsl로 동적 쿼리 활용
 
+### 🚩프로젝트 설정
+
+- DB 설정 환경변수 추가
+```
+SPRING_DATASOURCE_URL=#{DB 주소}
+ex) SPRING_DATASOURCE_URL=jdbc:postgresql://db.jrsvhsuhbgbvhmnyiovm.supabase.co:5432/postgres?user=postgres&password=#{password}
+```
+
+- application.yml 파일에 google client 설정 추가
+```
+spring:
+  security:
+    oauth2:
+      client:
+        registration:
+          google:
+            client-id: #{client-id}
+            client-secret: #{client-secret}
+            redirect-uri: http://localhost:8080/login/oauth2/code/google
+            scope:
+              - profile
+              - email
+```
+
+
 ## 🏆 프로젝트 산출물
 
 - [프로젝트 S.A](https://www.notion.so/b-5-2755bc44d6374ef3875dbef83bb72a17)
