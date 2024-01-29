@@ -3,12 +3,11 @@ package com.teamsparta.backoffice.domain.review.controller
 import com.teamsparta.backoffice.domain.review.dto.replyByReviewDto.AddReplyByReviewRequest
 import com.teamsparta.backoffice.domain.review.dto.replyByReviewDto.ReplyByReviewResponse
 import com.teamsparta.backoffice.domain.review.dto.replyByReviewDto.UpdateReplyByReviewRequest
-import com.teamsparta.backoffice.domain.review.dto.reviewDto.ReviewResponse
 import com.teamsparta.backoffice.domain.review.service.ReplyByReviewService
 import com.teamsparta.backoffice.infra.security.jwt.UserPrincipal
-import jakarta.transaction.Transactional
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
+import org.springframework.security.access.prepost.PreAuthorize
 import org.springframework.security.core.annotation.AuthenticationPrincipal
 import org.springframework.web.bind.annotation.*
 
@@ -18,7 +17,7 @@ class ReviewReplyController(
     private val replyByReviewService: ReplyByReviewService,
 ) {
 
-    //    @PreAuthorize(hasRole("CEO"))
+    @PreAuthorize("hasAnyRole('CEO','ADMIN')")
     @PostMapping("/{reviewId}")
     fun addReplyByReview(
         @PathVariable storeId: Long,
@@ -31,6 +30,7 @@ class ReviewReplyController(
             .body(replyByReviewService.addReplyByReview(storeId, reviewId, userPrincipal.id, addReviewReplyRequest))
     }
 
+    @PreAuthorize("hasAnyRole('CEO','ADMIN')")
     @PutMapping("/{reviewId}/replies/{replyId}")
     fun updateReplyByReview(
         @PathVariable storeId: Long,
@@ -50,6 +50,7 @@ class ReviewReplyController(
                     updateReplyByReviewRequest)
             )
     }
+    @PreAuthorize("hasAnyRole('CEO','ADMIN')")
     @DeleteMapping("/{reviewId}/replies/{replyId}")
     fun deleteReplyByReview(
         @PathVariable storeId: Long,
