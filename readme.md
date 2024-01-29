@@ -31,7 +31,14 @@
 
 
 ## **📚기술스택**
-
+<div>
+  <img src="https://img.shields.io/badge/kotlin-7F52FF?style=for-the-badge&logo=kotlin&logoColor=white">
+  <img src="https://img.shields.io/badge/spring-6DB33F?style=for-the-badge&logo=spring&logoColor=white">
+  <img src="https://img.shields.io/badge/github-000000?style=for-the-badge&logo=github&logoColor=white">
+  <img src="https://img.shields.io/badge/git-F05032?style=for-the-badge&logo=git&logoColor=white">
+  <img src="https://img.shields.io/badge/IntelliJ-000000?style=for-the-badge&logo=Intellijidea&logoColor=white">
+  <br>
+</div>
 ### **Backend**
 
 - Spring Boot: 3.2.1
