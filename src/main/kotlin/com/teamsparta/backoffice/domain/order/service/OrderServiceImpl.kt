@@ -72,6 +72,7 @@ class OrderServiceImpl(
         return getOrderResponse(order)
     }
 
+    @Transactional
     override fun changeOrderStatus(
         userId: Long,
         orderId: Long,
@@ -83,6 +84,12 @@ class OrderServiceImpl(
 
         if (order.user.id != user.id && order.store.user.id != user.id) {
             throw AccessDeniedException("주문 수정 권한이 없음")
+        }
+
+        if(arrayOf(OrderStatus.STORE_CANCEL,OrderStatus.CUSTOMER_CANCEL).contains(statusEnum)){
+            val account = user.account
+            account.money = account.money + order.totalPay
+            accountRepository.save(account)
         }
 
         order.status = statusEnum
