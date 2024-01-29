@@ -1,5 +1,7 @@
 package com.teamsparta.backoffice.domain.store.model
 
+import com.teamsparta.backoffice.domain.review.model.Review
+import com.teamsparta.backoffice.domain.review.model.toResponse
 import com.teamsparta.backoffice.domain.store.dto.response.StoreListResponse
 import com.teamsparta.backoffice.domain.store.dto.response.StoreResponse
 import com.teamsparta.backoffice.domain.store.dto.response.UserStoreListResponse
@@ -37,7 +39,10 @@ class Store(
         @JoinColumn(name = "user_id")
         val user: User,
 
-        ) {
+    @OneToMany(mappedBy = "store", cascade = [CascadeType.ALL])
+    var reviews: MutableList<Review> = mutableListOf()
+
+    ) {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -48,13 +53,14 @@ class Store(
 
 fun Store.toStoreResponse(): StoreResponse {
     return StoreResponse(
-            storeId = id!!,
-            name = name,
-            profileImgUrl = profileImgUrl,
-            category = category,
-            address = address,
-            phone = phone,
-            description = description
+        storeId = id!!,
+        name = name,
+        profileImgUrl = profileImgUrl,
+        category = category,
+        address = address,
+        phone = phone,
+        description = description,
+        reviews = reviews.map { it.toResponse() }
     )
 }
 
