@@ -20,9 +20,9 @@ import org.springframework.transaction.annotation.Transactional
 
 @Service
 class MenuServiceImpl(
-    private val menuRepository: MenuRepository,
-    private val userRepository: UserRepository,
-    private val storeRepository: StoreRepository
+        private val menuRepository: MenuRepository,
+        private val userRepository: UserRepository,
+        private val storeRepository: StoreRepository
 ) : MenuService {
 
     // 메뉴 전체조회
@@ -41,15 +41,15 @@ class MenuServiceImpl(
             throw AccessDeniedException("본인이 개설한 가게에만 메뉴를 추가할 수 있습니다.")
         }
         return menuRepository.save(
-            Menu(
-                name = request.name,
-                imageUrl = request.imageUrl,
-                description = request.description,
-                price = request.price,
-                status = MenuStatus.SALE, // 기본상태 판매중
-                user = user,
-                store = store
-            )
+                Menu(
+                        name = request.name,
+                        imageUrl = request.imageUrl,
+                        description = request.description,
+                        price = request.price,
+                        status = MenuStatus.SALE, // 기본상태 판매중
+                        user = user,
+                        store = store
+                )
         ).toMenuResponse()
     }
 

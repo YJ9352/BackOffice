@@ -5,6 +5,7 @@ import io.jsonwebtoken.Jws
 import io.jsonwebtoken.Jwts
 import io.jsonwebtoken.security.Keys
 import org.springframework.beans.factory.annotation.Value
+import org.springframework.security.oauth2.core.user.OAuth2User
 import org.springframework.stereotype.Component
 import java.nio.charset.StandardCharsets
 import java.time.Duration
@@ -44,5 +45,15 @@ class JwtPlugin(
                 .compact()
     }
 
-
+    fun generateAuthToken(oAuth2User: OAuth2User): String {
+        val now = Date().time
+        val key = Keys.hmacShaKeyFor(secret.toByteArray(StandardCharsets.UTF_8))
+        val accessToken = Jwts.builder()
+                .subject(oAuth2User.attributes["email"] as String)
+                .expiration(Date(now + accessTokenExpirationHour))
+                .signWith(key)
+                .compact()
+        return accessToken
+    }
 }
+

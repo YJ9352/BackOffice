@@ -4,6 +4,8 @@ import com.teamsparta.backoffice.domain.store.dto.request.StoreRequest
 import com.teamsparta.backoffice.domain.store.dto.request.StoreStatusRequest
 import com.teamsparta.backoffice.domain.store.dto.response.StoreListResponse
 import com.teamsparta.backoffice.domain.store.dto.response.StoreResponse
+import com.teamsparta.backoffice.domain.store.dto.response.UserStoreListResponse
+import com.teamsparta.backoffice.domain.store.dto.response.UserStoreResponse
 import com.teamsparta.backoffice.domain.store.service.StoreService
 import com.teamsparta.backoffice.infra.security.jwt.UserPrincipal
 import org.springframework.http.HttpStatus
@@ -14,52 +16,63 @@ import org.springframework.web.bind.annotation.*
 @RestController
 @RequestMapping("/stores")
 class StoreController(
-    private val storeService: StoreService
+        private val storeService: StoreService
 ) {
 
+    // 가게 목록 조회(사용자)
+    @GetMapping("/")
+    fun getStoreList(): ResponseEntity<List<UserStoreListResponse>> {
+        return ResponseEntity.status(HttpStatus.OK).body(storeService.getStoreList())
+    }
+
+    // 가게 개별 정보 조회(사용자)
+    @GetMapping("/{storeId}/")
+    fun getStoreDetails(@PathVariable storeId: Long): ResponseEntity<List<UserStoreResponse>> {
+        return ResponseEntity.status(HttpStatus.OK).body(storeService.getStroreDetails(storeId))
+    }
+
     // 본인 가게 목록 조회
-    @GetMapping()
+    @GetMapping
     fun getStoreByUserId(
-        @AuthenticationPrincipal userPrincipal: UserPrincipal
+            @AuthenticationPrincipal userPrincipal: UserPrincipal
     ): ResponseEntity<List<StoreListResponse>> {
         return ResponseEntity
-            .status(HttpStatus.OK)
-            .body(storeService.getStoreByUserId(userPrincipal.id))
+                .status(HttpStatus.OK)
+                .body(storeService.getStoreByUserId(userPrincipal.id))
     }
 
     // 가게 생성
-    @PostMapping()
+    @PostMapping
     fun createStore(
-        @RequestBody request: StoreRequest,
-        @AuthenticationPrincipal userPrincipal: UserPrincipal
+            @RequestBody request: StoreRequest,
+            @AuthenticationPrincipal userPrincipal: UserPrincipal
     ): ResponseEntity<StoreResponse> {
         return ResponseEntity
-            .status(HttpStatus.CREATED)
-            .body(storeService.createStore(userPrincipal.id, request))
+                .status(HttpStatus.CREATED)
+                .body(storeService.createStore(userPrincipal.id, request))
     }
 
     // 가게 정보 수정
     @PutMapping("/{storeId}")
     fun modifyStore(
-        @PathVariable storeId: Long,
-        @AuthenticationPrincipal userPrincipal: UserPrincipal,
-        @RequestBody request: StoreRequest
+            @PathVariable storeId: Long,
+            @AuthenticationPrincipal userPrincipal: UserPrincipal,
+            @RequestBody request: StoreRequest
     ): ResponseEntity<StoreResponse> {
         return ResponseEntity
-            .status(HttpStatus.OK)
-            .body(storeService.modifyStore(userPrincipal.id, storeId, request))
+                .status(HttpStatus.OK)
+                .body(storeService.modifyStore(userPrincipal.id, storeId, request))
     }
 
     // 가게 영업상태 변경
     @PutMapping("/{storeId}/status")
     fun storeStatusChange(
-        @PathVariable storeId: Long,
-        @AuthenticationPrincipal userPrincipal: UserPrincipal,
-        @RequestBody request: StoreStatusRequest
+            @PathVariable storeId: Long,
+            @AuthenticationPrincipal userPrincipal: UserPrincipal,
+            @RequestBody request: StoreStatusRequest
     ): ResponseEntity<StoreResponse> {
         return ResponseEntity
-            .status(HttpStatus.OK)
-            .body(storeService.storeStatusChange(storeId, userPrincipal.id, request))
+                .status(HttpStatus.OK)
+                .body(storeService.storeStatusChange(storeId, userPrincipal.id, request))
     }
-
 }
