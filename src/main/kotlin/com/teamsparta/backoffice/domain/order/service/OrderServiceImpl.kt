@@ -33,7 +33,6 @@ class OrderServiceImpl(
 ) : OrderService {
 
     override fun getOrderList(userId: Long, status: String?, storeId: Long?): List<OrderResponse> {
-        // Todo Exception 처리
 
         return orderRepository
             .selectOrderList(userId, status?.let { OrderStatus.valueOf(it) }, storeId)
