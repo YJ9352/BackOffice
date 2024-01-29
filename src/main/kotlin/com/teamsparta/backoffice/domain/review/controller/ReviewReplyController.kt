@@ -3,10 +3,8 @@ package com.teamsparta.backoffice.domain.review.controller
 import com.teamsparta.backoffice.domain.review.dto.replyByReviewDto.AddReplyByReviewRequest
 import com.teamsparta.backoffice.domain.review.dto.replyByReviewDto.ReplyByReviewResponse
 import com.teamsparta.backoffice.domain.review.dto.replyByReviewDto.UpdateReplyByReviewRequest
-import com.teamsparta.backoffice.domain.review.dto.reviewDto.ReviewResponse
 import com.teamsparta.backoffice.domain.review.service.ReplyByReviewService
 import com.teamsparta.backoffice.infra.security.jwt.UserPrincipal
-import jakarta.transaction.Transactional
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.security.core.annotation.AuthenticationPrincipal
@@ -45,8 +43,8 @@ class ReviewReplyController(
                 replyByReviewService.updateReplyByReview(
                     storeId,
                     reviewId,
-                    replyId,
                     userPrincipal.id,
+                    replyId,
                     updateReplyByReviewRequest)
             )
     }
