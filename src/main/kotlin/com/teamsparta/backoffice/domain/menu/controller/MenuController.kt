@@ -8,6 +8,7 @@ import com.teamsparta.backoffice.domain.menu.service.MenuService
 import com.teamsparta.backoffice.infra.security.jwt.UserPrincipal
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
+import org.springframework.security.access.prepost.PreAuthorize
 import org.springframework.security.core.annotation.AuthenticationPrincipal
 import org.springframework.web.bind.annotation.*
 
@@ -28,6 +29,7 @@ class MenuController(
 
     // 메뉴 추가
     @PostMapping()
+    @PreAuthorize("hasAnyRole('CEO','ADMIN')")
     fun createMenu(
             @PathVariable storeId: Long,
             @AuthenticationPrincipal userPrincipal: UserPrincipal,
@@ -39,6 +41,7 @@ class MenuController(
 
     // 메뉴 수정
     @PutMapping("/{menuId}")
+    @PreAuthorize("hasAnyRole('CEO','ADMIN')")
     fun modifyMenu(
             @PathVariable storeId: Long,
             @PathVariable menuId: Long,
@@ -51,6 +54,7 @@ class MenuController(
 
     // 메뉴 상태변경
     @PutMapping("/{menuId}/status")
+    @PreAuthorize("hasAnyRole('CEO','ADMIN')")
     fun menuStatusChange(
             @PathVariable menuId: Long,
             @PathVariable storeId: Long,

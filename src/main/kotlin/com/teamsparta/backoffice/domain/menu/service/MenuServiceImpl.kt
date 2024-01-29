@@ -27,8 +27,8 @@ class MenuServiceImpl(
 
     // 메뉴 전체조회
     override fun getAllMenu(storeId: Long): List<MenuListResponse> {
-        menuRepository.findByIdOrNull(storeId) ?: throw ModelNotFoundException("storeId", storeId)
-        return menuRepository.findByStoreId(storeId).map { it.toMenuListResponse() }
+        val menus = menuRepository.findByStoreId(storeId) ?: throw ModelNotFoundException("storeId", storeId)
+        return menus.map { it.toMenuListResponse() }
     }
 
     // 메뉴 추가
