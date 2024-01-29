@@ -9,6 +9,7 @@ import com.teamsparta.backoffice.domain.cart.repository.CartMenuRepository
 import com.teamsparta.backoffice.domain.cart.repository.CartRepository
 import com.teamsparta.backoffice.domain.exception.ModelNotFoundException
 import com.teamsparta.backoffice.domain.menu.repository.MenuRepository
+import com.teamsparta.backoffice.domain.store.repository.StoreRepository
 import com.teamsparta.backoffice.domain.user.repository.UserRepository
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.security.access.AccessDeniedException
@@ -20,15 +21,17 @@ class CartServiceImpl(
     private val cartMenuRepository: CartMenuRepository,
     private val cartRepository: CartRepository,
     private val userRepository: UserRepository,
-    private val menuRepository: MenuRepository
+    private val menuRepository: MenuRepository,
+    private val storeRepository: StoreRepository
 ) : CartService {
     private fun createCart(userId: Long, storeId: Long): Cart {
         val user = userRepository.findByIdOrNull(userId) ?: throw ModelNotFoundException("User", userId)
+        val store = storeRepository.findByIdOrNull(storeId) ?: throw ModelNotFoundException("Store", storeId)
 
         return cartRepository.save(
             Cart(
                 user = user,
-                storeId = storeId
+                store = store
             )
         )
     }
@@ -44,7 +47,7 @@ class CartServiceImpl(
         val menu = menuRepository.findByIdOrNull(addCartMenuRequest.menuId)
             ?: throw ModelNotFoundException("menu", addCartMenuRequest.menuId)
 
-        if (menu.storeId != cart.storeId) {
+        if (menu.store.id != cart.store.id) {
             throw IllegalStateException("동일한 가게의 메뉴만 장바구니에 넣을 수 있음")
         }
 
@@ -75,7 +78,7 @@ class CartServiceImpl(
     }
 
     @Transactional
-    override fun deleteCartMenu(userId: Long, cartMenuId: Long) {
+    override fun deleteCartMenu(userId: Long, cartMenuId: Long): CartResponse {
 
         val cartMenu = cartMenuRepository.findByIdOrNull(cartMenuId)
             ?: throw ModelNotFoundException("CartMenu", cartMenuId)
@@ -83,16 +86,16 @@ class CartServiceImpl(
         if (cartMenu.cart.user.id != userId) {
             throw AccessDeniedException("다른 사람의 장바구니에 접근 불가")
         }
-
-        return cartMenuRepository.deleteById(cartMenuId)
+        cartMenuRepository.deleteById(cartMenuId)
+        return getCartByUserId(userId)
     }
 
     fun CartMenu.toResponse(): CartMenuResponse {
         return CartMenuResponse(
             cartMenuId = id!!,
-            menuId = menu.id,
+            menuId = menu.id!!,
             name = menu.name,
-            price = menu.price * quantity,
+            price = menu.price,
             quantity = quantity
         )
     }
