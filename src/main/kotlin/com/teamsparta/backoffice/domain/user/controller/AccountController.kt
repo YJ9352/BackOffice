@@ -1,7 +1,8 @@
+/*
 package com.teamsparta.backoffice.domain.user.controller
 
-import com.teamsparta.backoffice.domain.user.dto.AccountRequest
-import com.teamsparta.backoffice.domain.user.dto.AccountResponse
+import com.teamsparta.backoffice.domain.user.dto.account.AccountRequest
+import com.teamsparta.backoffice.domain.user.dto.account.AccountResponse
 import com.teamsparta.backoffice.domain.user.repository.UserRepository
 import com.teamsparta.backoffice.domain.user.service.AccountService
 import com.teamsparta.backoffice.infra.security.jwt.UserPrincipal
@@ -14,8 +15,8 @@ import org.springframework.web.bind.annotation.*
 @RequestMapping("/accounts")
 @RestController
 class AccountController(
-        val accountService: AccountService,
-        val userRepository: UserRepository
+        private val accountService: AccountService,
+        private val userRepository: UserRepository
 ) {
     //1. 계좌 조회하기
     @GetMapping
@@ -23,7 +24,7 @@ class AccountController(
             @AuthenticationPrincipal userPrincipal: UserPrincipal
     ): ResponseEntity<AccountResponse> {
         val user = userRepository.findByIdOrNull(userPrincipal.id)
-        return ResponseEntity.status(HttpStatus.OK).body(accountService.getMyAccount(user?.account?.id))
+        return ResponseEntity.status(HttpStatus.OK).body(accountService.getMyAccount(user!!.account.id))
     }
 
     //2. 입금하기
@@ -33,6 +34,9 @@ class AccountController(
             @RequestBody accountRequest: AccountRequest
     ): ResponseEntity<AccountResponse> {
         val user = userRepository.findByIdOrNull(userPrincipal.id)
-        return ResponseEntity.status(HttpStatus.OK).body(accountService.modifyMyAccount(user?.account?.id, accountRequest))
+        return ResponseEntity.status(HttpStatus.OK).body(accountService.modifyMyAccount(user!!.account.id, accountRequest))
     }
+
 }
+
+ */

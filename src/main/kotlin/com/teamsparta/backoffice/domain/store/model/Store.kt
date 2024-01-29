@@ -13,31 +13,31 @@ import jakarta.persistence.*
 @Table(name = "stores")
 class Store(
 
-    @Column(name = "name")
-    var name: String,
+        @Column(name = "name")
+        var name: String,
 
-    @Column(name = "profileimgurl")
-    var profileImgUrl: String,
+        @Column(name = "profileimgurl")
+        var profileImgUrl: String,
 
-    @Column(name = "description")
-    var description: String,
+        @Column(name = "description")
+        var description: String,
 
-    @Column(name = "phone")
-    var phone: String,
+        @Column(name = "phone")
+        var phone: String,
 
-    @Column(name = "address")
-    var address: String,
+        @Column(name = "address")
+        var address: String,
 
-    @Column(name = "category")
-    var category: String,
+        @Column(name = "category")
+        var category: String,
 
-    @Enumerated(EnumType.STRING)
-    @Column(name = "status")
-    var status: StoreStatus,
+        @Enumerated(EnumType.STRING)
+        @Column(name = "status")
+        var status: StoreStatus,
 
-    @ManyToOne
-    @JoinColumn(name = "user_id")
-    val user: User,
+        @ManyToOne
+        @JoinColumn(name = "user_id")
+        val user: User,
 
     @OneToMany(mappedBy = "store", cascade = [CascadeType.ALL])
     var reviews: MutableList<Review> = mutableListOf()
@@ -67,12 +67,12 @@ fun Store.toStoreResponse(): StoreResponse {
 
 fun Store.toStoreListResponse(): StoreListResponse {
     return StoreListResponse(
-        storeId = id!!,
-        name = name,
-        category = category,
-        address = address,
-        phone = phone,
-        description = description
+            storeId = id!!,
+            name = name,
+            category = category,
+            address = address,
+            phone = phone,
+            description = description
     )
 }
 

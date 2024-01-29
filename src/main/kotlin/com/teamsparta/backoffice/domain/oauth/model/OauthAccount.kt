@@ -1,13 +1,12 @@
-package com.teamsparta.backoffice.domain.user.model
+package com.teamsparta.backoffice.domain.oauth.model
 
 import com.teamsparta.backoffice.domain.user.dto.account.AccountRequest
 import com.teamsparta.backoffice.domain.user.dto.account.AccountResponse
 import jakarta.persistence.*
 
 @Entity
-@Table(name = "account")
-class Account(
-
+@Table(name = "oauth_account")
+class OauthAccount(
         @Column(name = "money")
         var money: Int = 0,
 
@@ -19,10 +18,9 @@ class Account(
         money = request.money
 
     }
-
 }
 
-fun Account.toResponse(): AccountResponse {
+fun OauthAccount.toResponse(): AccountResponse {
     return AccountResponse(
             money = money
     )
