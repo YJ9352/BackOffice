@@ -10,7 +10,7 @@
 - Data : Spring JPA, QueryDSL
 - Security : Spring Security, JWT, OAuth 2.0
 - DB : Supabase (PostgreSQL)
-- Collaboration : IntelliJ IDEA, Git, GitHub Issues, Slack, IntelliJ IDEA
+- Collaboration : IntelliJ IDEA, Git, GitHub Issues, Slack
 
 ## ERD
 ![Title Image](https://github.com/YJ9352/BackOffice/blob/main/image/erd_7.png)
