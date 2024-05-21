@@ -1,104 +1,47 @@
-# <strong>🛵배달 시스템 Backend Server</strong>
+# 배달 시스템 Backend Server
+![Title Image](https://github.com/YJ9352/BackOffice/blob/main/image/Delivery%20Service.gif)
+## 프로젝트 개요
+- 개발인원 : BE 5명
+- 개발기간 : 24.01.22 ~ 24.01.29 (1주일)
+- 프로젝트 설명 : 배달 시스템을 모방한 백엔드 시스템 개발
 
+## 개발환경
+- Backend : Kotlin, Spring Boot
+- Data : Spring JPA, QueryDSL
+- Security : Spring Security, JWT, OAuth 2.0
+- DB : Supabase (PostgreSQL)
+- Collaboration : IntelliJ IDEA, Git, GitHub Issues, Slack, IntelliJ IDEA
 
-## 🎁 프로젝트 개요
+## ERD
+![Title Image](https://github.com/YJ9352/BackOffice/blob/main/image/erd_7.png)
+  
+## 주요 개발 기능
+### 데이터베이스 설계
+- 기획 단계에서부터 설계를 책임지며 팀원들의 피드백과 회의를 통해 지속적으로 개선
+- 효율성과 확장성을 고려하여 안정적인 데이터베이스 구조를 구축
 
+### 가게 CRUD / 메뉴 CRUD
+- 일반 사용자
+  사용자 편의성을 고려한 가게 리스트 조회 및 메뉴의 전체/개별 조회 기능을 분리 구현
+- 가게 관리자
+  실제 서비스 중인 배달 어플리케이션 분석을 바탕으로 영업정지한 가게 또는 판매중지된 메뉴의 정보가 바로 삭제되지 않는다는 점을 발견
+  해당 사실을 팀원과 공유하여 삭제를 어떤 방식으로 적용하는게 좋을지 회의를 진행하였고,
+  1. 관리자가 가게 재영업 및 메뉴 재판매를 필요로 할 때 새로 등록하기 보다 복원이 쉽다.
+  2. 이후 관련 데이터를 이용 할 가능성이 있다.
+  
+  위와 같은 이유로 영업 및 메뉴 상태변경을 추가해 Soft Delete 방식을 적용
+- 공통부분
+  1. 이용자 타입에 따른 권한 및 접근 제어를 구현하여 보안성을 강화
+  2. CRUD기능을 안정적이며 확장 가능한 구조로 구축하여 기능 추가가 용이
 
-- **개발 기간** : 24.01.22 ~ 24.01.29 (1주)
-- **개발 환경** : Kotlin, Spring Boot, Supabase, PostgreSql
-- **프로젝트 이름** : 배달 프로젝트
-- **프로젝트 설명 :** 배달 시스템을 모방한 백엔드 시스템 개발
-
-
-## 👩 Team B05
-
-- <strong>오재영</strong>
-    - [github](https://github.com/JYOH3246)
-    - 역할 - 와이어 프레임, 프로필 관리, 계좌 관리, 인증/인가
-- <strong>박유진</strong>
-    - [github](https://github.com/YJ9352)
-    - 역할 - ERD, 가게 CRUD, 메뉴 CRUD
-- <strong>김성현</strong>
-    - [github](https://github.com/lazzzykim)
-    - 역할 - ERD, 리뷰 / 리뷰 답글 CRUD
-- <strong>윤승환</strong>
-    - [github](https://github.com/lovelyunsh)
-    - 역할 - API 명세, 주문 Flow Chart, 장바구니 / 주문 CRUD
-- <strong>김현득</strong>
-    - [github](https://github.com/KimHyuenDeuk)
-    - 역할 - 가게 CRUD 초안 작성
-
-
-
-## **📚기술스택**
-<div>
-  <img src="https://img.shields.io/badge/kotlin-7F52FF?style=for-the-badge&logo=kotlin&logoColor=white">
-  <img src="https://img.shields.io/badge/spring-6DB33F?style=for-the-badge&logo=spring&logoColor=white">
-  <img src="https://img.shields.io/badge/github-000000?style=for-the-badge&logo=github&logoColor=white">
-  <img src="https://img.shields.io/badge/git-F05032?style=for-the-badge&logo=git&logoColor=white">
-  <img src="https://img.shields.io/badge/IntelliJ-000000?style=for-the-badge&logo=Intellijidea&logoColor=white">
-  <br>
-</div>
-
-### **Backend**
-
-- Spring Boot: 3.2.1
-- Kotlin: 1.9.22
-
-- Data
-    - Spring JPA: 3.2.3
-    - QueryDsl: 5.0.0
-
-- Security
-    - Spring Security: 6.2.0
-    - JWT: io.jsonwebtoken:jjwt-api:0.12.3
-    - Oauth 2.0
-
-### **DB**
-
-- SupaBase(postgreSQL): [https://supabase.com/dashboard/projects]
-
-### **collaboration**
-
-- Git, GitHub Issue, Slack
-
-
-## 🎈 주요기능
-
-### 프로필 관리 / 계좌 관리
-- 회원가입/로그인/유저 정보 확인
-- Spring Security 활용
-- 소셜 로그인 기능 추가
-
-### 가게 관리
-- 일반유저 : 가게 목록 조회/가게 정보 조회
-- 가게주인 : 본인 가게 목록 조회/개별 조회/가게 생성/정보 수정/영업상태 변경(영업중 / 영업중지)
-    - 본인이 개설한 가게만 조회 / 생성 / 수정 / 상태변경 가능
-
-### 메뉴 관리
-- 전체 메뉴 조회/메뉴추가/메뉴수정/메뉴 상태변경(판매중/품절/판매중단)
-- 각각 기능에 ROLE에 따라 인가 처리
-
-### 리뷰 관리
-- 가게 조회 시 리뷰 정보 함께 조회 / 리뷰 CRUD
-- 자신의 가게에 리뷰 생성 불가
-- 리뷰 답글 기능
-
-### 장바구니 / 주문
-- 일반유저 : 장바구니 메뉴 추가/제거, 주문 시도(계좌 잔액 검사), 주문 취소
-- 가게주인 : 주문 상태 변경(주문 취소,주문 확정, 조리 완료, 배달 완료)
-- 주문 조회 시 QueryDsl로 동적 쿼리 활용
-
-## 🚩프로젝트 설정
-
+## 프로젝트 설정
 - DB 설정 환경변수 추가
-```
+```Kotlin
 SPRING_DATASOURCE_URL=#{DB 주소}
 ex) SPRING_DATASOURCE_URL=jdbc:postgresql://db.jrsvhsuhbgbvhmnyiovm.supabase.co:5432/postgres?user=postgres&password=#{password}
 ```
-
 - application.yml 파일에 google client 설정 추가
-```
+```Kotlin
 spring:
   security:
     oauth2:
@@ -113,10 +56,11 @@ spring:
               - email
 ```
 
+## 트러블 슈팅
+### 테스트 중 결과값이 입력한 ID의 정보와 일치하지 않아 오류 발생
+@PathVariable의 변수와 service의 변수가 둘 모두 Long 타입이라 순서를 바꿔 입력할 경우 다른 값이어도 그대로 인식하던 것을 올바른 순서로 수정하여 해결
 
-## 🏆 프로젝트 산출물
+### 메뉴 전체조회 테스트 중 결과값이 제대로 출력되지 않아 오류 발생
+findByStoreId을 사용해야 했으나 findByIdOrNull을 사용했던 부분을 수정하여 해결
+오류 수정 후 코드 전체를 리팩토링하여 중복되는 부분을 제거하고 알아보기 쉽게 정리
 
-- [프로젝트 S.A](https://www.notion.so/b-5-2755bc44d6374ef3875dbef83bb72a17)
-- [와이어프레임](https://www.figma.com/file/uAcbPBbKkPxbrXF4JkjufO/Untitled?type=design&node-id=0%3A1&mode=design&t=gc0xvVmrFpIi8bWn-1)
-- [API 명세서](https://docs.google.com/spreadsheets/d/1IBSx4MNMpBJp5ZjguWEJdB4CDQiS_cr2QuPW_KS_C_g/edit#gid=0)
-- [주문 FlowChart](https://www.notion.so/image/https%3A%2F%2Fprod-files-secure.s3.us-west-2.amazonaws.com%2Fe075f211-1fd8-4567-8710-8c6c3691fa9f%2F13f74065-2a40-4d70-8fd0-42f06aafe711%2F%25EC%25A3%25BC%25EB%25AC%25B8_%25ED%2594%2584%25EB%25A1%259C%25EC%2584%25B8%25EC%258A%25A4.jpg?table=block&id=b9fdf1ef-3b74-4e95-a5ad-dca40eb3bfda&spaceId=e075f211-1fd8-4567-8710-8c6c3691fa9f&width=2000&userId=60bdfa4d-0758-4916-9e55-b7298dfa44c5&cache=v2)
